@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sardines</title>
+<meta name="description" content="Real-life hide and seek, sardines style. A Bouncy Production · Made for Haz.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0b1f33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --sea:#0b1f33;--sea2:#12304d;--road:#24476a;
+  --tin:#c9d3dd;--tin2:#9aa8b6;--paper:#f3e6c8;--ink:#1d2a38;--label:#c0392b;
+  --tomato:#e5533d;--tomInk:#2a0d07;--mustard:#f2b631;--musInk:#241800;--pink:#ff8a78;
+  --fg:#fff;--dim:rgba(255,255,255,.75);--faint:rgba(255,255,255,.6);--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);
+  --slab:'Alfa Slab One',Rockwell,'Roboto Slab',Georgia,serif;
+  --sans:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--sea);color:var(--fg)}
+body{font:16px/1.4 var(--sans);min-height:100vh;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+button:disabled{cursor:default}
+a{color:var(--mustard)}
+#app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;
+  padding:max(14px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+.scr{flex:1;display:flex;flex-direction:column;gap:12px}
+.grow{flex:1}
+.slab{font-family:var(--slab);font-weight:400}
+.h1{font-family:var(--slab);font-size:30px;line-height:1.12;margin:0}
+.h2{font-family:var(--slab);font-size:19px;margin:0;font-weight:400}
+.dim{color:var(--dim)}.faint{color:var(--faint)}
+.small{font-size:13px}.tiny{font-size:12px}
+.center{text-align:center}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.credit{margin:6px 0 0;text-align:center;font-size:12px;color:var(--faint)}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* buttons */
+.btn{min-height:52px;border-radius:16px;padding:0 18px;font-weight:600;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;text-decoration:none}
+.btn.big{width:100%;min-height:56px;font-family:var(--slab);font-weight:400;font-size:19px}
+.b-mus{background:var(--mustard);color:var(--musInk)}
+.b-tom{background:var(--tomato);color:var(--tomInk)}
+.b-tin{background:var(--tin);color:var(--ink)}
+.b-ink{background:var(--ink);color:var(--mustard)}
+.b-out{border:2px solid var(--tin);color:var(--tin)}
+.b-ghost{border:1px solid rgba(255,255,255,.28);color:#fff}
+.b-sos{min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--tomato);color:var(--pink);font-weight:700;font-size:13px}
+.btn:disabled,.qbtn:disabled{background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);border:1px solid var(--line)}
+.chip{font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;white-space:nowrap}
+.c-mus{background:var(--mustard);color:var(--musInk)}
+.c-tin{background:var(--tin);color:var(--ink)}
+.c-tom{background:var(--tomato);color:var(--tomInk)}
+.c-soft{background:rgba(201,211,221,.18);color:#e6ecf1;font-weight:600}
+.card{background:var(--card);border-radius:14px;padding:12px 14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;color:var(--dim)}
+.inp{height:52px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);padding:0 14px;font-size:18px;width:100%;min-width:0}
+.inp:focus{outline:2px solid var(--mustard);outline-offset:1px}
+
+/* tin label look */
+.label{background:var(--paper);color:var(--ink);border-radius:20px;padding:6px;box-shadow:0 0 0 4px var(--tin)}
+.label>.in{border:2px solid var(--label);border-radius:15px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.label .kick{font-size:11px;font-weight:700;letter-spacing:.2em}
+.paper{background:var(--paper);color:var(--ink);border-radius:14px;padding:10px 12px}
+.red{color:var(--label)}
+.sid{display:block}
+
+/* home */
+.home-label{margin:18px 4px 6px;box-shadow:0 0 0 6px var(--tin),0 0 0 8px var(--ink);border-radius:26px;padding:10px}
+.home-label>.in{border-width:3px;padding:16px 12px}
+.home-title{font-family:var(--slab);font-size:50px;color:var(--label);margin:0;line-height:1.05;letter-spacing:1px}
+.codebox{display:flex;align-items:center;height:56px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);padding:0 12px;gap:8px;min-width:0}
+.codebox input{flex:1;min-width:0;height:44px;border:0;background:transparent;font-family:var(--slab);font-size:22px;letter-spacing:3px;text-transform:uppercase}
+.codebox input:focus{outline:none}
+.codebox:focus-within{outline:2px solid var(--mustard)}
+.join-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.or{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:14px}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* lobby */
+.tinno{font-family:var(--slab);font-size:34px;letter-spacing:3px;color:var(--label);line-height:1.1}
+.lobby-top{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:12px;align-items:center;text-align:left!important}
+.label>.in.lobby-top{display:grid}
+.qr{width:96px;height:96px;background:#fff;border-radius:8px;border:2px solid var(--ink);padding:3px}
+.qr svg{width:100%;height:100%;display:block}
+.plist{display:flex;flex-direction:column;gap:6px}
+.prow{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:48px;padding:0 12px;border-radius:12px;background:var(--card)}
+.ava{width:34px;height:34px;border-radius:50%;background:var(--tin);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700}
+.ava.s{background:var(--mustard);color:var(--musInk)}
+.pname{font-size:15px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.settings{display:flex;flex-direction:column;background:var(--card);border-radius:14px;padding:2px 4px}
+.set{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;min-height:48px;padding:0 10px;font-size:15px;border-top:1px solid rgba(255,255,255,.08);text-align:left;width:100%}
+.set:first-child{border-top:0}
+.set b{color:#fff}.set .v{display:flex;align-items:center;gap:6px;font-weight:700}
+.set .v svg{opacity:.7}
+
+/* timers */
+.bigclock{font-family:var(--slab);font-size:72px;line-height:1;font-variant-numeric:tabular-nums}
+.midclock{font-family:var(--slab);font-size:46px;line-height:1;font-variant-numeric:tabular-nums}
+.word{font-family:var(--slab);font-size:42px;letter-spacing:3px;color:var(--label);line-height:1.1;word-break:break-all}
+.tincells{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.tc{min-height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc.in{background:var(--tomato);color:var(--tomInk);font-weight:700}
+.tc.out{border:1px dashed rgba(201,211,221,.55);color:rgba(255,255,255,.85)}
+.qlist{display:flex;flex-direction:column;gap:6px}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;min-height:40px;padding:0 12px;border-radius:12px;background:var(--card);font-size:14px}
+.qrow .a{font-weight:700;color:var(--mustard)}
+
+/* hunt */
+.topbar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.qgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.qbtn{min-height:52px;border-radius:14px;background:var(--tin);color:var(--ink);font-size:15px;font-weight:600;padding:4px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
+.qbtn small{font-weight:500;font-size:12px}
+.qbtn.sq{grid-column:span 2;background:transparent;border:2px solid var(--mustard);color:var(--mustard)}
+.qbtn.sq:disabled{border:1px solid var(--line);color:rgba(255,255,255,.55)}
+.bubble{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center}
+.banner{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:center;border-radius:14px;padding:11px 13px;font-size:14px;line-height:1.4}
+.banner svg{flex:none}
+.bn-tin{background:var(--tin);color:var(--ink)}
+.bn-mus{background:rgba(242,182,49,.16);border:1px solid rgba(242,182,49,.5)}
+.bn-tom{background:var(--tomato);color:var(--tomInk)}
+.bn-soft{background:var(--card)}
+
+/* map */
+.map{position:relative;height:300px;border-radius:18px;overflow:hidden;background:var(--sea2);border:3px solid var(--tin);touch-action:none;user-select:none;-webkit-user-select:none}
+.map .tiles{position:absolute;inset:0}
+.map .tiles img{position:absolute;width:256px;height:256px;filter:invert(1) hue-rotate(185deg) brightness(.85) saturate(.55) contrast(.9);pointer-events:none;user-select:none}
+.map .tint{position:absolute;inset:0;background:rgba(11,31,51,.28);pointer-events:none}
+.map svg.ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.map .mk{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.map .pin{width:28px;height:28px;border-radius:50%;background:var(--paper);color:var(--ink);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink)}
+.map .me{width:18px;height:18px;border-radius:50%;background:var(--tin);border:4px solid rgba(201,211,221,.35);box-sizing:content-box}
+.map .tag{position:absolute;transform:translate(14px,-50%);font-size:12px;font-weight:700;background:rgba(11,31,51,.88);padding:3px 7px;border-radius:8px;white-space:nowrap;pointer-events:none}
+.map .tag.tom{background:var(--tomato);color:var(--tomInk)}
+.map .attr{position:absolute;right:6px;bottom:4px;font-size:10px;color:rgba(255,255,255,.7);background:rgba(11,31,51,.6);padding:1px 4px;border-radius:4px;pointer-events:auto}
+.map .attr a{color:inherit}
+.map .zm{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.map .zm button{width:40px;height:40px;border-radius:10px;background:rgba(11,31,51,.88);color:#fff;font-size:22px;font-weight:700;border:1px solid var(--line)}
+.map .nomap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px}
+.legend{display:flex;flex-direction:column;gap:3px;font-size:13px;color:rgba(255,255,255,.85)}
+
+/* sheets */
+.sheet-wrap{position:fixed;inset:0;z-index:50;background:rgba(5,12,20,.72);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;max-height:100%;overflow:auto;background:var(--sea);border-radius:22px 22px 0 0;border-top:3px solid var(--tin);padding:18px max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:12px}
+.sheet.full{min-height:100%;border-radius:0;border:0}
+.opt{min-height:48px;text-align:left;padding:8px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);font-size:15px;width:100%}
+.opt[aria-pressed=true]{border:2px solid var(--mustard);background:rgba(242,182,49,.14);font-weight:600}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.seg button{min-height:48px;border-radius:12px;border:1px solid rgba(255,255,255,.2);font-size:14px}
+.seg button[aria-pressed=true]{border:2px solid var(--mustard);background:rgba(242,182,49,.14);color:var(--mustard);font-weight:700}
+
+/* overlays */
+.toast{position:fixed;left:50%;top:max(12px,env(safe-area-inset-top));transform:translateX(-50%);z-index:80;width:calc(100% - 24px);max-width:496px;border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.taunt-toast{background:var(--mustard);color:var(--musInk);display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:center;text-align:left;width:calc(100% - 24px)}
+.taunt-toast .t{font-family:var(--slab);font-size:19px;line-height:1.25;word-break:break-word}
+.squeaked{position:fixed;inset:0;z-index:90;background:var(--mustard);color:var(--musInk);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px}
+.squeaked h1{font-family:var(--slab);font-size:64px;margin:0;line-height:1}
+.sos-scr{background:#1a0b0a;margin:-14px -16px -12px;padding:24px 20px 16px;min-height:100vh;align-items:center;text-align:center}
+.hold{position:relative;width:220px;height:220px;touch-action:none;-webkit-user-select:none;user-select:none}
+.hold svg{position:absolute;inset:0}
+.hold button{position:absolute;left:22px;top:22px;width:176px;height:176px;border-radius:50%;background:var(--tomato);color:var(--tomInk);font-family:var(--slab);font-size:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;-webkit-touch-callout:none}
+.hold button span{font-family:var(--sans);font-size:14px;font-weight:700}
+.rank{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:50px;padding:0 12px;border-radius:12px;background:var(--card)}
+.rank .n{font-family:var(--slab);font-size:20px;color:var(--mustard)}
+.rank .pts{display:flex;flex-direction:column;align-items:flex-end}
+.rank .pts b{font-family:var(--slab);font-weight:400;font-size:18px;color:var(--mustard)}
+.scrub{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center}
+.scrub input{width:100%;accent-color:var(--tin)}
+.play{width:48px;height:48px;border-radius:50%;background:var(--tin);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.awards{display:flex;flex-direction:column;gap:8px}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.wob{animation:wob .25s linear infinite}
+@media (prefers-reduced-motion:reduce){.wob,.spin{animation:none}}
+
+/* narrow phones: keep at the end so it wins over base rules */
+@media (max-width:370px){
+  .h1{font-size:26px}.home-title{font-size:42px}.bigclock{font-size:60px}.word{font-size:34px}
+  .tinno{font-size:28px}.lobby-top{grid-template-columns:minmax(0,1fr) 84px}.qr{width:84px;height:84px}
+  .map{height:260px}.qbtn{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div id="app" aria-live="off"></div>
+<div id="layer"></div>
+<script src="sync-config.js" onerror="void 0"></script>
+<script src="sid-messages.js" onerror="void 0"></script>
+<script>
+/* qrcode-generator 1.4.4 — (c) 2009 Kazuhiko Arase, MIT licence — http://www.d-project.com/ */
+var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
+
+</script>
+<script>
+(() => {
+  'use strict';
+  /* =====================================================================
+     SARDINES · real-life hide and seek. A Bouncy Production · Made for Haz
+     One hides (the sardine), everyone else (the Cats) hunts with questions
+     answered from both phones' GPS. Finders squeeze into the tin.
+     Sync: Firebase Realtime Database over REST + server-sent events (address
+     in sync-config.js). With no address it falls back to a same-device demo.
+     ===================================================================== */
+  const DB = String((window.SYNC_CONFIG && window.SYNC_CONFIG.databaseURL) || '').trim().replace(/\/+$/, '');
+  const KEY = 'sardinesStore1';
+  const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';           // no I, L, O, 0 or 1
+  const CODE_RE = /^[A-HJKMNP-Z2-9]{6}$/;
+  const MIN = 60000;
+  const SV = { '.sv': 'timestamp' };
+  const DEF = { pack: 15, limit: 60, cool: 3, sqr: 150, lies: true, pick: 'random', zone: null };
+  const OPTS = { pack: [5, 10, 15, 20, 30], limit: [30, 45, 60, 90], cool: [1, 2, 3, 5], sqr: [100, 150, 200], zoneR: [400, 800, 1500, 0] };
+  const QUIET_MS = 3 * MIN;          // sardine's phone silent this long = "gone quiet"
+  const TAUNT_MS = 10 * MIN;         // one regular taunt every 10 min (+1 per squeak that sounded)
+  const WAIT_MS = 60000;             // a question unanswered this long gives the turn back
+  const MOVED_M = 60, BACK_M = 40;   // "moved" alarm on/off distances
+  const OUCH_M = 40;
+  const WORDS = ['PICKLE', 'KIPPER', 'ANCHOVY', 'BRINE', 'OLIVE', 'LEMON', 'MUSTARD', 'PILCHARD', 'HERRING', 'CRACKER', 'BISCUIT', 'WALRUS', 'NOODLE', 'PUFFIN', 'TOASTIE', 'CRUMPET', 'WOMBAT', 'GHERKIN', 'TEAPOT', 'DUMPLING', 'PRAWN', 'TRUMPET', 'WAFFLE', 'SPROUT'];
+
+  /* ---------- small helpers ---------- */
+  const $ = (s, r) => (r || document).querySelector(s);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pad = (n) => String(n).padStart(2, '0');
+  const left = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ':' + pad(s % 60); };      // countdowns
+  const gone = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + pad(s % 60); };     // elapsed
+  const rid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const normCode = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const genCode = () => { let c = ''; const a = new Uint32Array(6); if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(a); else a.forEach((_, i) => { a[i] = Math.random() * 4e9; }); for (let i = 0; i < 6; i++) c += CODE_CHARS[a[i] % CODE_CHARS.length]; return c; };
+  const hash = (s) => { let h = 2166136261; s = String(s); for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+  const obj = (o) => (o && typeof o === 'object' ? o : {});
+
+  /* ---------- storage (works with storage blocked) ---------- */
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+  let store = load();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+  if (!store.pid) { store.pid = 'p' + rid(); save(); }
+  const ME = store.pid;
+
+  /* ---------- geometry ---------- */
+  const R_EARTH = 6371000, rad = (d) => d * Math.PI / 180;
+  function dist(a, b) {
+    const dLat = rad(b.lat - a.lat), dLng = rad(b.lng - a.lng);
+    const s = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+    return 2 * R_EARTH * Math.asin(Math.min(1, Math.sqrt(s)));
+  }
+  function offsetNE(a, b) {      // metres north / east from a to b
+    return { n: rad(b.lat - a.lat) * R_EARTH, e: rad(b.lng - a.lng) * R_EARTH * Math.cos(rad((a.lat + b.lat) / 2)) };
+  }
+  function compass(a, b) {
+    const o = offsetNE(a, b); const ang = (Math.atan2(o.e, o.n) * 180 / Math.PI + 360) % 360;
+    return ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'][Math.round(ang / 45) % 8];
+  }
+  const fmtM = (m) => (m >= 1000 ? (m / 1000).toFixed(1) + 'km' : Math.round(m / 10) * 10 + 'm');
+
+  /* =====================================================================
+     ENGINE (pure functions, no DOM) — exposed on window.__sardines for tests
+     ===================================================================== */
+  const QK = { hc: 'Hotter or colder?', w100: 'Within 100m?', w300: 'Within 300m?', ns: 'North or south?', ew: 'East or west?', sq: 'Squeak!' };
+  const ANS = { hot: 'Hotter', cold: 'Colder', yes: 'Yes', no: 'No', n: 'North', s: 'South', e: 'East', w: 'West', close: 'Too close to call', void: 'No answer', sounded: 'Sounded', far: 'Too far' };
+  const FLIP = { hot: 'cold', cold: 'hot', yes: 'no', no: 'yes', n: 's', s: 'n', e: 'w', w: 'e' };
+  const isFix = (f) => !!f && typeof f.lat === 'number' && typeof f.lng === 'number' && isFinite(f.lat) && isFinite(f.lng);
+
+  function catsOf(r) { return Object.keys(obj(r.cats)).filter((p) => p !== r.sardine); }
+  function rinfo(r, now) {
+    const huntAt = (r.startAt || 0) + (r.pack || 0) * MIN, endAt = huntAt + (r.limit || 0) * MIN;
+    const cats = catsOf(r);
+    const tin = Object.entries(obj(r.tin)).filter(([p, v]) => v && typeof v.at === 'number' && cats.includes(p))
+      .map(([p, v]) => ({ p, at: v.at, lat: v.lat, lng: v.lng })).sort((a, b) => a.at - b.at);
+    let done = false, why = null, doneAt = null;
+    if (typeof r.startAt !== 'number') return { huntAt, endAt, cats, tin, done, why, doneAt, phase: 'wait' };
+    if (r.sos && typeof r.sos.at === 'number') { done = true; why = 'sos'; doneAt = r.sos.at; }
+    else if (cats.length && tin.length >= cats.length) { done = true; why = 'full'; doneAt = Math.max(huntAt, tin[tin.length - 1].at); }
+    else if (now >= endAt) { done = true; why = 'time'; doneAt = endAt; }
+    const phase = done ? 'done' : now < huntAt ? 'pack' : 'hunt';
+    return { huntAt, endAt, cats, tin, done, why, doneAt, phase };
+  }
+  function questions(r) {
+    return Object.entries(obj(r.q)).filter(([, v]) => v && typeof v === 'object' && typeof v.at === 'number' && typeof v.p === 'string' && QK[v.k])
+      .map(([id, v]) => Object.assign({ id }, v)).sort((a, b) => a.at - b.at || (a.id < b.id ? -1 : 1));
+  }
+  const counts = (q) => !!q.ans && q.ans !== 'close' && q.ans !== 'void';     // used up a turn
+  function usedTurns(r, p, before) { return questions(r).filter((q) => q.p === p && counts(q) && (before == null || q.at < before)).length; }
+  function turnState(r, p, now) {      // { ready, readyAt, waiting: q|null }
+    const mine = questions(r).filter((q) => q.p === p);
+    const waiting = mine.filter((q) => !q.ans && now - q.at < WAIT_MS).pop() || null;
+    const last = mine.filter(counts).pop();
+    const readyAt = last ? last.at + (r.cool || 3) * MIN : 0;
+    return { ready: !waiting && now >= readyAt, readyAt, waiting };
+  }
+  function prevFix(r, q) {             // where this Cat last asked from (for hotter/colder)
+    const before = questions(r).filter((x) => x.p === q.p && x.at < q.at && x.id !== q.id && isFix(x) && x.ans !== 'void');
+    return before.pop() || null;
+  }
+  function answer(kind, s, h, prev, sqr) {
+    if (!isFix(s) || !isFix(h)) return 'void';
+    const unc = Math.min(50, Math.max(10, ((s.acc || 20) + (h.acc || 20)) / 2));   // GPS wobble allowance
+    if (kind === 'sq') return dist(s, h) <= (sqr || 150) ? 'sounded' : 'far';
+    if (kind === 'hc') {
+      if (!isFix(prev)) return 'void';
+      const d1 = dist(s, h), d0 = dist(prev, h);
+      if (Math.abs(d1 - d0) < unc) return 'close';
+      return d1 < d0 ? 'hot' : 'cold';
+    }
+    if (kind === 'w100' || kind === 'w300') {
+      const R0 = kind === 'w100' ? 100 : 300, d = dist(s, h);
+      if (Math.abs(d - R0) < unc) return 'close';
+      return d <= R0 ? 'yes' : 'no';
+    }
+    if (kind === 'ns' || kind === 'ew') {
+      const o = offsetNE(s, h), v = kind === 'ns' ? o.n : o.e;
+      if (Math.abs(v) < unc) return 'close';
+      return kind === 'ns' ? (v > 0 ? 'n' : 's') : (v > 0 ? 'e' : 'w');
+    }
+    return 'void';
+  }
+  function tinSpot(r, I) { if (isFix(r.spot)) return r.spot; const t = (I || rinfo(r, Infinity)).tin.find(isFix); return t || null; }
+  function score(r, now) {
+    const I = rinfo(r, now);
+    if (!I.done) return null;
+    const pts = {}, notes = {};
+    pts[r.sardine] = 0; I.cats.forEach((p) => { pts[p] = 0; });
+    if (I.why === 'sos') return { pts, notes, sos: true, I };
+    const n = I.cats.length;
+    I.tin.forEach((t, i) => {
+      pts[t.p] = n - 1 - i;
+      if (usedTurns(r, t.p, t.at + 1) <= 3) { pts[t.p] += 1; notes[t.p] = 'thrifty'; }
+    });
+    const dur = Math.max(0, I.doneAt - I.huntAt);
+    pts[r.sardine] = Math.floor(dur / (10 * MIN)) + (I.why === 'time' && I.tin.length === 0 ? 3 : 0);
+    return { pts, notes, I };
+  }
+  function nextSardine(r, players) {
+    const I = rinfo(r, Infinity);
+    if (I.why === 'sos') return r.sardine;
+    const unfound = I.cats.filter((p) => !I.tin.some((t) => t.p === p) && (!players || players[p]));
+    if (unfound.length) return unfound.sort()[hash(r.startAt + ':' + r.sardine) % unfound.length];
+    const last = I.tin[I.tin.length - 1];
+    return last ? last.p : r.sardine;
+  }
+  function ouch(r) {
+    const I = rinfo(r, Infinity), spot = tinSpot(r, I);
+    if (!spot) return null;
+    let best = null;
+    questions(r).forEach((q) => {
+      if (!isFix(q) || q.at < I.huntAt || q.ans === 'void') return;
+      const d = dist(q, spot); if (d > OUCH_M) return;
+      const found = I.tin.find((t) => t.p === q.p);
+      if (found && found.at <= q.at + 3 * MIN) return;
+      if (!best || d < best.d) best = { p: q.p, d, q };
+    });
+    return best;
+  }
+  function board(rounds, players) {
+    const tot = {}, turns = {};
+    Object.keys(obj(players)).forEach((p) => { tot[p] = 0; turns[p] = 0; });
+    const per = {};
+    Object.keys(obj(rounds)).map(Number).sort((a, b) => a - b).forEach((n) => {
+      const r = rounds[n]; if (!r || typeof r !== 'object') return;
+      const sc = score(r, Infinity); if (!sc || sc.sos) return;
+      Object.entries(sc.pts).forEach(([p, v]) => { tot[p] = (tot[p] || 0) + v; (per[p] = per[p] || []).push({ n, v, sardine: r.sardine === p }); turns[p] = (turns[p] || 0) + usedTurns(r, p); });
+    });
+    return Object.keys(tot).map((p) => ({ p, total: tot[p], turns: turns[p] || 0, per: per[p] || [] }))
+      .sort((a, b) => b.total - a.total || a.turns - b.turns || String(a.p).localeCompare(String(b.p)));
+  }
+  function tauntState(r, me, now) {    // sardine's taunts: regular every 10 min from the hunt start, plus bonus per sounded squeak
+    const I = rinfo(r, now);
+    const ts = Object.values(obj(r.taunt)).filter((t) => t && typeof t.at === 'number');
+    const regular = ts.filter((t) => !t.b).sort((a, b) => a.at - b.at);
+    const bonusUsed = ts.filter((t) => t.b).length;
+    const earned = questions(r).filter((q) => q.k === 'sq' && q.ans === 'sounded').length;
+    const lastReg = regular[regular.length - 1];
+    const regAt = lastReg ? lastReg.at + TAUNT_MS : I.huntAt;
+    const bonus = Math.max(0, earned - bonusUsed);
+    return { regReady: now >= regAt && I.phase === 'hunt', regAt, bonus, can: I.phase === 'hunt' && (now >= regAt || bonus > 0) };
+  }
+  const ENGINE = { rinfo, questions, usedTurns, turnState, prevFix, answer, score, nextSardine, ouch, board, tauntState, dist, offsetNE, compass, tinSpot, FLIP };
+
+  /* =====================================================================
+     RELAY · the whole tin lives at tins/<CODE> as one small tree.
+     Both relays give the same calls: set / patch / del, plus off() = server clock offset.
+     Writes show up locally at once (optimistic) and queue while offline.
+     ===================================================================== */
+  function setIn(root, path, data, merge) {
+    const parts = String(path || '').split('/').filter(Boolean);
+    if (!parts.length) {
+      if (merge) { root = Object.assign(obj(root), {}); Object.keys(obj(data)).forEach((k) => { if (data[k] === null) delete root[k]; else root[k] = data[k]; }); return root; }
+      return data && typeof data === 'object' ? data : {};
+    }
+    root = obj(root); let o = root;
+    for (let i = 0; i < parts.length - 1; i++) { if (!o[parts[i]] || typeof o[parts[i]] !== 'object') o[parts[i]] = {}; o = o[parts[i]]; }
+    const k = parts[parts.length - 1];
+    if (merge && data && typeof data === 'object') { o[k] = Object.assign(obj(o[k]), {}); Object.keys(data).forEach((kk) => { if (data[kk] === null) delete o[k][kk]; else o[k][kk] = data[kk]; }); }
+    else if (data === null || data === undefined) delete o[k]; else o[k] = data;
+    return root;
+  }
+  const resolveSv = (v, t) => (v && typeof v === 'object' ? (v['.sv'] === 'timestamp' && Object.keys(v).length === 1 ? t : Object.fromEntries(Object.entries(v).map(([k, x]) => [k, resolveSv(x, t)]))) : v);
+  const clone = (v) => (v == null ? v : JSON.parse(JSON.stringify(v)));
+
+  /* --- relay 1: same-device demo (localStorage + BroadcastChannel). Lets you try a whole game in a few tabs. --- */
+  function makeDemoRelay(code, h) {
+    const LK = 'sardinesDemo_' + code;
+    let bc = null; try { bc = new BroadcastChannel('sardines-' + code); } catch (e) {}
+    let tree = {}; try { tree = JSON.parse(localStorage.getItem(LK)) || {}; } catch (e) {}
+    const push = () => { try { localStorage.setItem(LK, JSON.stringify(tree)); } catch (e) {} if (bc) bc.postMessage(1); h.onTree(clone(tree)); };
+    const pull = () => { try { tree = JSON.parse(localStorage.getItem(LK)) || {}; } catch (e) {} h.onTree(clone(tree)); };
+    if (bc) bc.onmessage = pull;
+    const onStore = (e) => { if (e.key === LK) pull(); };
+    window.addEventListener('storage', onStore);
+    setTimeout(() => { h.onStatus('online'); h.onTree(clone(tree)); }, 0);
+    const w = (p, v, m) => { pull(); tree = setIn(tree, p, resolveSv(clone(v), Date.now()), m); push(); };
+    return {
+      demo: true, off: () => 0, pending: () => 0,
+      set: (p, v) => w(p, v, false), patch: (p, v) => w(p, v, true), del: (p) => w(p, null, false),
+      close() { window.removeEventListener('storage', onStore); try { bc && bc.close(); } catch (e) {} },
+    };
+  }
+
+  /* --- relay 2: Firebase Realtime Database over plain REST + server-sent events (no SDK) --- */
+  function makeFirebaseRelay(code, h) {
+    const base = DB + '/tins/' + code;
+    const url = (p) => base + (p ? '/' + p : '') + '.json';
+    const dev = 'd' + Math.random().toString(36).slice(2, 8);
+    let es = null, closed = false, cache = {}, offset = 0, lastEv = 0, wd = null, status = '', flushing = false, retryT = null;
+    const queue = [];
+    const setStatus = (s) => { if (s !== status) { status = s; h.onStatus(s); } };
+    async function req(method, p, body) {
+      const r = await fetch(url(p), { method, headers: body !== undefined ? { 'Content-Type': 'application/json' } : undefined, body: body !== undefined ? JSON.stringify(body) : undefined });
+      if (r.status === 401 || r.status === 403) { const e = new Error('denied'); e.denied = true; throw e; }
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.status === 204 ? null : r.json();
+    }
+    async function flush() {
+      if (flushing || closed) return; flushing = true; clearTimeout(retryT);
+      try {
+        while (queue.length && !closed) {
+          const w = queue[0];
+          try { await req(w.m, w.p, w.b); queue.shift(); if (status === 'offline' && (!es || es.readyState !== 1)) open(); }
+          catch (e) { if (e.denied) { queue.shift(); setStatus('denied'); continue; } setStatus('offline'); retryT = setTimeout(flush, 4000); break; }
+        }
+      } finally { flushing = false; h.onQueue(queue.length); }
+    }
+    function write(m, p, b) {
+      cache = setIn(cache, p, m === 'DELETE' ? null : resolveSv(clone(b), Date.now() + offset), m === 'PATCH');
+      h.onTree(cache);
+      queue.push({ m, p, b }); h.onQueue(queue.length); flush();
+    }
+    async function measure() {                    // how far is our clock from the server's?
+      try {
+        const t0 = Date.now(); let sv = await req('PUT', 'clk/' + dev, SV); const t1 = Date.now();
+        if (typeof sv !== 'number') sv = await req('GET', 'clk/' + dev);
+        if (typeof sv === 'number') offset = sv - (t0 + t1) / 2;
+        req('DELETE', 'clk/' + dev).catch(() => {});
+      } catch (e) {}
+    }
+    function onEv(e, merge) {
+      lastEv = Date.now();
+      let m; try { m = JSON.parse(e.data); } catch (err) { return; }
+      if (!m || typeof m.path !== 'string') return;
+      cache = setIn(cache, m.path, m.data, merge);
+      h.onTree(cache);
+    }
+    function open() {
+      if (closed) return;
+      try { if (es) es.close(); } catch (e) {}
+      es = new EventSource(url(''));
+      es.addEventListener('put', (e) => onEv(e, false));
+      es.addEventListener('patch', (e) => onEv(e, true));
+      es.addEventListener('keep-alive', () => { lastEv = Date.now(); });
+      es.addEventListener('cancel', () => setStatus('denied'));
+      es.addEventListener('auth_revoked', () => setStatus('denied'));
+      es.onopen = () => { lastEv = Date.now(); setStatus('online'); measure(); flush(); };
+      es.onerror = () => {
+        if (status === 'denied') return;
+        setStatus(navigator.onLine === false ? 'offline' : 'connecting');
+        req('GET', 'game').catch((e) => { if (e.denied) setStatus('denied'); });     // a stream refused by the rules looks like any other error
+      };
+    }
+    const onOnline = () => { if (!closed) { open(); flush(); } };
+    window.addEventListener('online', onOnline);
+    wd = setInterval(() => { if (closed) return; if (!es || es.readyState === 2 || Date.now() - lastEv > 75000) open(); }, 10000);
+    setStatus('connecting'); open();
+    return {
+      demo: false, off: () => offset, pending: () => queue.length,
+      set: (p, v) => write('PUT', p, v), patch: (p, v) => write('PATCH', p, v), del: (p) => write('DELETE', p),
+      close() { closed = true; clearInterval(wd); window.removeEventListener('online', onOnline); clearTimeout(retryT); try { es && es.close(); } catch (e) {} },
+    };
+  }
+
+  /* =====================================================================
+     DEVICE · location, keep-awake, sound, buzz
+     ===================================================================== */
+  const geo = { st: 'idle', fix: null, watch: null };
+  let onFixHook = () => {};
+  function setFix(p) {
+    geo.fix = { lat: +p.coords.latitude.toFixed(6), lng: +p.coords.longitude.toFixed(6), acc: Math.max(1, Math.round(p.coords.accuracy || 30)), t: Date.now() };
+    geo.st = 'on'; onFixHook();
+  }
+  function geoStart(again) {
+    if (!('geolocation' in navigator)) { geo.st = 'none'; return; }
+    if (geo.watch != null && !again) return;
+    if (geo.watch != null) { try { navigator.geolocation.clearWatch(geo.watch); } catch (e) {} geo.watch = null; }
+    if (!geo.fix) geo.st = 'asking';
+    try {
+      geo.watch = navigator.geolocation.watchPosition(setFix, (e) => {
+        if (e && e.code === 1) { geo.st = 'denied'; try { navigator.geolocation.clearWatch(geo.watch); } catch (er) {} geo.watch = null; }
+        else if (!geo.fix || Date.now() - geo.fix.t > 120000) geo.st = 'wait';
+        onFixHook();
+      }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 30000 });
+    } catch (e) { geo.st = 'none'; }
+  }
+  function freshFix(maxAge) {
+    maxAge = maxAge || 20000;
+    return new Promise((res) => {
+      if (geo.fix && Date.now() - geo.fix.t < maxAge) return res(geo.fix);
+      if (!('geolocation' in navigator) || geo.st === 'denied') return res(geo.fix && Date.now() - geo.fix.t < 120000 ? geo.fix : null);
+      let done = false; const fin = (v) => { if (!done) { done = true; res(v); } };
+      setTimeout(() => fin(geo.fix && Date.now() - geo.fix.t < 120000 ? geo.fix : null), 8000);
+      try { navigator.geolocation.getCurrentPosition((p) => { setFix(p); fin(geo.fix); }, () => fin(geo.fix && Date.now() - geo.fix.t < 120000 ? geo.fix : null), { enableHighAccuracy: true, maximumAge: 5000, timeout: 12000 }); }
+      catch (e) { fin(null); }
+    });
+  }
+
+  let wl = null, wlOk = false, wlBusy = false;
+  async function wake() {
+    if (wl || wlBusy || document.visibilityState !== 'visible') return;
+    if (!('wakeLock' in navigator)) { wlOk = false; return; }
+    wlBusy = true;
+    try { wl = await navigator.wakeLock.request('screen'); wlOk = true; wl.addEventListener('release', () => { wl = null; wlOk = false; }); }
+    catch (e) { wlOk = false; }
+    wlBusy = false;
+  }
+  function unwake() { try { wl && wl.release(); } catch (e) {} wl = null; wlOk = false; }
+
+  let ac = null;
+  function audio() {
+    try {
+      if (!ac) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; ac = new A(); }
+      if (ac.state === 'suspended') ac.resume().catch(() => {});
+    } catch (e) { return null; }
+    return ac;
+  }
+  const soundOn = () => !!ac && ac.state === 'running';
+  function tone(fn) { const c = audio(); if (!c || c.state !== 'running') return; try { fn(c, c.currentTime); } catch (e) {} }
+  function squeakSound(secs) {      // a proper shriek: rising chirps, loud
+    tone((c, t0) => {
+      const g = c.createGain(); g.gain.value = 0.0001; g.connect(c.destination);
+      const o = c.createOscillator(); o.type = 'square'; o.connect(g);
+      const n = Math.round((secs || 3) * 4);
+      for (let i = 0; i < n; i++) {
+        const t = t0 + i * 0.25;
+        o.frequency.setValueAtTime(1300, t); o.frequency.exponentialRampToValueAtTime(2700, t + 0.12); o.frequency.exponentialRampToValueAtTime(900, t + 0.22);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.7, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.23);
+      }
+      o.start(t0); o.stop(t0 + n * 0.25 + 0.05);
+    });
+  }
+  function splat() {                 // taunt arriving
+    tone((c, t0) => {
+      const g = c.createGain(); g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.5, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.35); g.connect(c.destination);
+      const o = c.createOscillator(); o.type = 'triangle'; o.frequency.setValueAtTime(520, t0); o.frequency.exponentialRampToValueAtTime(140, t0 + 0.3); o.connect(g); o.start(t0); o.stop(t0 + 0.36);
+    });
+  }
+  function ding() {
+    tone((c, t0) => {
+      [880, 1320].forEach((f, i) => { const g = c.createGain(); const t = t0 + i * 0.12; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4); g.connect(c.destination); const o = c.createOscillator(); o.frequency.value = f; o.connect(g); o.start(t); o.stop(t + 0.42); });
+    });
+  }
+  const buzz = (p) => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} };
+
+  /* =====================================================================
+     MAP · tiny OpenStreetMap tile viewer (no library). Drag to pan, +/− to zoom.
+     items: {t:'circle',lat,lng,r,stroke,fill,dash} {t:'line',pts,stroke,dash,w} {t:'pin',lat,lng,html,cls} {t:'tag',lat,lng,text,cls}
+     ===================================================================== */
+  function makeMap(el, label) {
+    el.classList.add('map'); el.setAttribute('role', 'img'); el.setAttribute('aria-label', label || 'Map');
+    el.innerHTML = '<div class="tiles"></div><div class="tint"></div><svg class="ov" aria-hidden="true"></svg><div class="mks" aria-hidden="true"></div>' +
+      '<div class="zm"><button type="button" aria-label="Zoom in" data-z="1">+</button><button type="button" aria-label="Zoom out" data-z="-1">−</button></div>' +
+      '<div class="attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>';
+    const tl = el.querySelector('.tiles'), svg = el.querySelector('svg.ov'), mks = el.querySelector('.mks');
+    let z = 16, cx = 0, cy = 0, items = [], sig = '', moved = false, imgs = {};
+    const world = (zz) => 256 * Math.pow(2, zz);
+    const proj = (lat, lng, zz) => { const s = world(zz == null ? z : zz); const sn = Math.sin(rad(Math.max(-85, Math.min(85, lat)))); return { x: (lng + 180) / 360 * s, y: (0.5 - Math.log((1 + sn) / (1 - sn)) / (4 * Math.PI)) * s }; };
+    const unproj = (x, y, zz) => { const s = world(zz == null ? z : zz); const lng = x / s * 360 - 180; const n = Math.PI - 2 * Math.PI * y / s; return { lat: 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))), lng }; };
+    const mpp = (lat, zz) => 156543.03392 * Math.cos(rad(lat)) / Math.pow(2, zz == null ? z : zz);
+    const W = () => el.clientWidth || 300, H = () => el.clientHeight || 260;
+    function tiles() {
+      const w = W(), h = H(), x0 = cx - w / 2, y0 = cy - h / 2, n = Math.pow(2, z), want = {};
+      for (let ty = Math.floor(y0 / 256); ty <= Math.floor((y0 + h) / 256); ty++) {
+        if (ty < 0 || ty >= n) continue;
+        for (let tx = Math.floor(x0 / 256); tx <= Math.floor((x0 + w) / 256); tx++) {
+          const key = z + '/' + (((tx % n) + n) % n) + '/' + ty, id = key + '@' + tx;
+          want[id] = 1;
+          let im = imgs[id];
+          if (!im) { im = new Image(); im.alt = ''; im.decoding = 'async'; im.referrerPolicy = 'strict-origin-when-cross-origin'; im.onerror = () => { im.style.visibility = 'hidden'; }; im.src = 'https://tile.openstreetmap.org/' + key + '.png'; tl.appendChild(im); imgs[id] = im; }
+          im.style.left = Math.round(tx * 256 - x0) + 'px'; im.style.top = Math.round(ty * 256 - y0) + 'px';
+        }
+      }
+      Object.keys(imgs).forEach((id) => { if (!want[id]) { imgs[id].remove(); delete imgs[id]; } });
+    }
+    function px(lat, lng) { const p = proj(lat, lng); return { x: p.x - cx + W() / 2, y: p.y - cy + H() / 2 }; }
+    function overlay() {
+      let s = '', m = '';
+      items.forEach((it) => {
+        if (it.t === 'circle' && isFix(it) && it.r > 0) { const p = px(it.lat, it.lng); const r = it.r / mpp(it.lat); s += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r.toFixed(1)}" fill="${it.fill || 'none'}" stroke="${it.stroke || '#f2b631'}" stroke-width="${it.w || 2}" ${it.dash ? 'stroke-dasharray="' + it.dash + '"' : ''}/>`; }
+        else if (it.t === 'shade' && isFix(it) && it.r > 0) { const p = px(it.lat, it.lng); const r = it.r / mpp(it.lat); const w = W(), h = H(); s += `<path fill-rule="evenodd" fill="rgba(5,12,20,.5)" d="M-10 -10H${w + 10}V${h + 10}H-10Z M${(p.x - r).toFixed(1)} ${p.y.toFixed(1)}a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(2 * r).toFixed(1)} 0a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(-2 * r).toFixed(1)} 0Z"/>`; }
+        else if (it.t === 'line' && it.pts && it.pts.length > 1) { s += `<polyline fill="none" stroke="${it.stroke}" stroke-width="${it.w || 3}" stroke-linecap="round" stroke-linejoin="round" ${it.dash ? 'stroke-dasharray="' + it.dash + '"' : ''} points="${it.pts.filter(isFix).map((q) => { const p = px(q.lat, q.lng); return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ')}"/>`; }
+        else if (it.t === 'pin' && isFix(it)) { const p = px(it.lat, it.lng); m += `<div class="mk ${it.cls || ''}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px">${it.html || ''}</div>`; }
+        else if (it.t === 'tag' && isFix(it)) { const p = px(it.lat, it.lng); m += `<div class="tag ${it.cls || ''}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px">${esc(it.text)}</div>`; }
+      });
+      svg.innerHTML = s; mks.innerHTML = m;
+    }
+    function draw() { tiles(); overlay(); }
+    function fit() {
+      const pts = [];
+      items.forEach((it) => {
+        if (!isFix(it) && it.t !== 'line') return;
+        if (it.t === 'line') { (it.pts || []).filter(isFix).forEach((q) => pts.push({ lat: q.lat, lng: q.lng, r: 0 })); return; }
+        if (it.nofit) return;
+        pts.push({ lat: it.lat, lng: it.lng, r: it.t === 'circle' ? it.r : 0 });
+      });
+      if (!pts.length) return false;
+      const w = W() - 56, h = H() - 56;
+      for (let zz = 18; zz >= 3; zz--) {
+        let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+        pts.forEach((q) => { const p = proj(q.lat, q.lng, zz), rr = (q.r || 0) / mpp(q.lat, zz); x0 = Math.min(x0, p.x - rr); x1 = Math.max(x1, p.x + rr); y0 = Math.min(y0, p.y - rr); y1 = Math.max(y1, p.y + rr); });
+        if ((x1 - x0) <= w && (y1 - y0) <= h || zz === 3) { z = Math.min(zz, pts.length === 1 && !pts[0].r ? 17 : 18); const c = unproj((x0 + x1) / 2, (y0 + y1) / 2, zz); const p = proj(c.lat, c.lng); cx = p.x; cy = p.y; return true; }
+      }
+      return false;
+    }
+    function zoomBy(d) { const c = unproj(cx, cy); z = Math.max(3, Math.min(19, z + d)); const p = proj(c.lat, c.lng); cx = p.x; cy = p.y; moved = true; draw(); }
+    el.querySelectorAll('.zm button').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); zoomBy(+b.dataset.z); }));
+    let drag = null;
+    el.addEventListener('pointerdown', (e) => { if (e.target.closest('.zm,.attr')) return; drag = { x: e.clientX, y: e.clientY, cx, cy, id: e.pointerId }; try { el.setPointerCapture(e.pointerId); } catch (er) {} });
+    el.addEventListener('pointermove', (e) => { if (!drag || e.pointerId !== drag.id) return; cx = drag.cx - (e.clientX - drag.x); cy = drag.cy - (e.clientY - drag.y); if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 4) moved = true; draw(); });
+    const end = () => { drag = null; };
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end); el.addEventListener('lostpointercapture', end);
+    el.addEventListener('dblclick', (e) => { if (!e.target.closest('.zm')) zoomBy(1); });
+    let ro = null; if (window.ResizeObserver) { ro = new ResizeObserver(() => draw()); ro.observe(el); }
+    return {
+      set(list) {
+        const s = JSON.stringify(list);
+        if (s === sig) return; sig = s; items = list;
+        if (!moved) fit();
+        draw();
+      },
+      refit() { moved = false; fit(); draw(); },
+      destroy() { if (ro) ro.disconnect(); },
+    };
+  }
+
+  /* =====================================================================
+     SID · the mascot (same chunky style as Frogue and Lumi) and his lines
+     ===================================================================== */
+  const SID_TAIL = '<path d="M182 62 L212 34 Q205 62 212 90 Z" fill="#4a7fae" stroke="#1e3a5a" stroke-width="5" stroke-linejoin="round"/>';
+  const SID_FIN = '<path d="M104 30 L118 10 L134 30 Z" fill="#4a7fae" stroke="#1e3a5a" stroke-width="4.5" stroke-linejoin="round"/>';
+  const SID_BODY = '<path d="M20 64 Q40 26 110 24 Q160 26 186 60 Q160 94 110 98 Q44 98 20 64 Z" fill="#dfe6ec" stroke="#1e3a5a" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M27 56 Q50 30 110 29 Q156 31 180 57 Q150 51 110 53 Q60 54 27 56 Z" fill="#4a7fae"/>' +
+    '<path d="M42 80 Q92 94 162 74 Q124 90 84 90 Q58 88 42 80 Z" fill="#f7f9fb"/>' +
+    '<circle cx="102" cy="45" r="3" fill="#1e3a5a" opacity=".55"/><circle cx="120" cy="44" r="3" fill="#1e3a5a" opacity=".55"/><circle cx="138" cy="46" r="3" fill="#1e3a5a" opacity=".55"/>' +
+    '<path d="M118 66 q6 6 12 0 M132 66 q6 6 12 0 M146 66 q6 6 12 0 M125 76 q6 6 12 0 M139 76 q6 6 12 0" fill="none" stroke="#9fb3c6" stroke-width="2" stroke-linecap="round"/>' +
+    '<path d="M72 33 Q82 62 72 94 L88 95 Q97 63 87 31 Z" fill="#e5533d" stroke="#7a2416" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M79 36 Q88 63 80 90" fill="none" stroke="#f6d7c9" stroke-width="3" stroke-dasharray="2.5 2.5"/>' +
+    '<path d="M88 92 L98 104 L86 104 Z" fill="#e5533d" stroke="#7a2416" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M98 76 Q110 96 122 84 Z" fill="#9fbad3" stroke="#1e3a5a" stroke-width="3.5" stroke-linejoin="round"/>';
+  const BLUSH = '<ellipse cx="58" cy="78" rx="6" ry="3.5" fill="#f9a8a0" opacity=".75"/>';
+  const FACES = {
+    smug: '<circle cx="45" cy="56" r="13" fill="#fff" stroke="#1e3a5a" stroke-width="3"/><circle cx="42" cy="58" r="7" fill="#0f1d2c"/><circle cx="44.5" cy="55.5" r="2.4" fill="#fff"/><path d="M32 54 Q45 41 58 54 Z" fill="#c9d3dd" stroke="#1e3a5a" stroke-width="3" stroke-linejoin="round"/><path d="M30 40 L57 45" stroke="#1e3a5a" stroke-width="4" stroke-linecap="round"/>' + BLUSH + '<path d="M22 70 Q31 77 40 69" fill="none" stroke="#1e3a5a" stroke-width="3.5" stroke-linecap="round"/>',
+    shock: '<circle cx="45" cy="54" r="16" fill="#fff" stroke="#1e3a5a" stroke-width="3"/><circle cx="45" cy="54" r="4" fill="#0f1d2c"/><path d="M30 34 L54 30" stroke="#1e3a5a" stroke-width="4" stroke-linecap="round"/><ellipse cx="30" cy="78" rx="6" ry="8" fill="#0f1d2c"/>',
+    taunt: '<path d="M33 58 Q45 46 57 58" fill="none" stroke="#1e3a5a" stroke-width="4.5" stroke-linecap="round"/><ellipse cx="58" cy="76" rx="6" ry="3.5" fill="#f9a8a0" opacity=".75"/><path d="M20 68 Q32 86 44 68 Z" fill="#0f1d2c" stroke="#1e3a5a" stroke-width="3" stroke-linejoin="round"/><path d="M26 76 Q30 90 37 80 Z" fill="#f472b6" stroke="#9d174d" stroke-width="2"/>',
+  };
+  function sid(mood, w) {
+    const h = Math.round(w * 120 / 220);
+    if (mood === 'squash') {
+      return `<svg class="sid" width="${w}" height="${h}" viewBox="0 0 220 120" aria-hidden="true"><g transform="translate(0 22) scale(1 .66)">${SID_TAIL}${SID_BODY}</g><path d="M34 56 L44 58 M54 56 L44 58" stroke="#1e3a5a" stroke-width="4" stroke-linecap="round"/><path d="M24 70 Q31 74 38 70" fill="none" stroke="#1e3a5a" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="56" cy="70" rx="6" ry="3" fill="#f9a8a0" opacity=".75"/><path d="M10 26 L210 26 M10 96 L210 96" stroke="#9aa8b6" stroke-width="5" stroke-linecap="round"/></svg>`;
+    }
+    const extra = mood === 'shock' ? '<path d="M8 40 q-6 -10 2 -20 M14 92 q-8 8 -2 20" fill="none" stroke="#f2b631" stroke-width="4" stroke-linecap="round"/>' : mood === 'crown' ? '<path d="M100 4 l6 10 10 2 -8 7 2 10 -10-5 -10 5 2-10 -8-7 10-2z" fill="#f2b631" stroke="#7a5200" stroke-width="2"/>' : '';
+    return `<svg class="sid" width="${w}" height="${h}" viewBox="0 0 220 120" aria-hidden="true">${extra}${SID_TAIL}${SID_FIN}${SID_BODY}${FACES[mood === 'crown' ? 'taunt' : mood] || FACES.smug}</svg>`;
+  }
+
+  const LINES = {
+    hot: ['Warmer! I can smell your tuna breath from here.', 'Hotter. Annoyingly.', 'Warmer, puss. Keep those whiskers twitching.'],
+    cold: ['Colder. Fridge-door colder.', 'Colder, puss. Like the fridge you keep me in.', 'Brrr. Wrong way, champ.'],
+    yes: ['Yes. They’re inside that ring. Probably smirking.', 'Yep, inside the ring. Sniff harder.'],
+    no: ['Nope. Not inside that ring. Think wider.', 'No. Further out, Cat.'],
+    n: ['North of you. Up, up, up.', 'They’re north. Point your nose at the top of the map.'],
+    s: ['South of you. Downwards, Cat.', 'They’re south. Bottom of the map, sunshine.'],
+    e: ['East of you. Sunrise side.', 'They’re east. Right-hand side of the map.'],
+    w: ['West of you. Sunset side.', 'They’re west. Left-hand side of the map.'],
+    close: ['Too close to call. GPS is wobbling. Turn refunded.'],
+    void: ['I couldn’t answer that one. Turn refunded.'],
+    sq: ['Squeak sent! Ears on, champ.', 'Squeak sent. Listen very carefully…', 'Squeak sent. Did you hear something? No? Hmm.'],
+    wait: ['Sniffing the air…'],
+    ready: ['Ask away. I’m listening.', 'Go on, ask me something.'],
+    packC: ['Stretch those whiskers, Cats. You’ll need them.', 'No peeking. I am watching.', 'Count to a thousand. Slowly. Ish.'],
+    tin: ['Breathe in, budge up, act natural.', 'Shh. You’re furniture now.', 'Squeeze in. Nobody likes a loud sardine.'],
+    taunts: ['Cold. Arctic. Penguins are judging you.', 'I’ve had two coffees waiting for you.', 'Someone just walked right past me. Was it you?', 'The tin is cosy. Shame you’re not in it.'],
+  };
+  (function mergeLines() {        // extra lines from sid-messages.js (optional)
+    const extra = window.SID_MESSAGES;
+    if (!extra || typeof extra !== 'object') return;
+    Object.keys(extra).forEach((k) => { if (Array.isArray(extra[k])) LINES[k] = (LINES[k] || []).concat(extra[k].filter((s) => typeof s === 'string' && s.trim()).map((s) => s.trim())); });
+  }());
+  const say = (k) => pick(LINES[k] && LINES[k].length ? LINES[k] : ['…']);
+
+  /* =====================================================================
+     APP STATE
+     ===================================================================== */
+  let T = null, relay = null, link = 'off', queued = 0, skew = 0, curKey = '', screenApi = null;
+  const now = () => Date.now() + (relay ? relay.off() : 0) + skew;
+  const view = { replay: false, sheet: null, msgs: {}, seenT: null, endArm: 0, fibTo: null, tauntI: 0, sqOverlay: 0, err: '', toastT: 0 };
+  const G = () => obj(T && T.game);
+  const P = () => obj(T && T.players);
+  const nameOf = (p) => (P()[p] && typeof P()[p].name === 'string' ? P()[p].name : 'Someone');
+  const curN = () => Number(G().round) || 0;
+  const curRound = () => { const n = curN(); const r = n && T && T.rounds && T.rounds[n]; return r && typeof r === 'object' && r.sardine ? r : null; };
+  const rpath = (sub) => 'rounds/' + curN() + (sub ? '/' + sub : '');
+  const hostId = () => { const ps = P(); if (G().host && ps[G().host]) return G().host; const s = Object.entries(ps).filter(([, v]) => v).sort((a, b) => (a[1].at || 0) - (b[1].at || 0)); return s.length ? s[0][0] : null; };
+  const plist = () => Object.entries(P()).filter(([, v]) => v && typeof v.name === 'string').sort((a, b) => (a[1].at || 0) - (b[1].at || 0)).map(([p, v]) => ({ p, name: v.name }));
+  const sets = () => Object.assign({}, DEF, obj(G().set));
+  const pres = (p) => obj(obj(T && T.pres)[p]);
+  const quiet = (p) => { const t = pres(p).t; return !(typeof t === 'number' && now() - t < QUIET_MS); };
+  const inZone = (f, zone) => !zone || !zone.r || !isFix(f) || dist(f, zone) <= zone.r;
+  const spotKey = () => 'sardinesSpot_' + store.tin + '_' + curN() + '_' + ((curRound() || {}).startAt || 0);
+  const getSpot = () => { try { return JSON.parse(localStorage.getItem(spotKey()) || 'null'); } catch (e) { return view.spot || null; } };
+  const putSpot = (s) => { view.spot = s; try { localStorage.setItem(spotKey(), JSON.stringify(s)); } catch (e) {} };
+
+  /* ---------- connection ---------- */
+  function connect(code) {
+    disconnect();
+    T = null; link = 'connecting'; view.seenT = null; view.msgs = {}; view.replay = false;
+    const h = {
+      onStatus(s) { link = s; refresh(); },
+      onTree(t) { T = t || {}; onTree(); },
+      onQueue(n) { queued = n; refresh(); },
+    };
+    relay = DB ? makeFirebaseRelay(code, h) : makeDemoRelay(code, h);
+    geoStart();
+  }
+  function disconnect() { if (relay) { try { relay.close(); } catch (e) {} } relay = null; T = null; link = 'off'; }
+  let inTree = false;
+  function onTree() {
+    if (inTree) return; inTree = true;
+    try {
+      if (T && T.game && store.name && !P()[ME]) relay.set('players/' + ME, { name: store.name, at: SV });
+      noticeTaunts(); referee();
+    } finally { inTree = false; }
+    refresh();
+  }
+  function presence() {
+    if (!relay || !T || !T.game || !P()[ME]) return;
+    const r = curRound(), zone = r ? r.zone : sets().zone;
+    relay.set('pres/' + ME, { t: SV, loc: geo.st === 'on' ? 1 : 0, out: geo.fix && !inZone(geo.fix, zone) ? 1 : 0 });
+    if (r && r.sos && r.sos.p === ME && !r.sos.ok && geo.fix && (Math.abs(geo.fix.lat - r.sos.lat) > 1e-5 || Math.abs(geo.fix.lng - r.sos.lng) > 1e-5)) relay.patch(rpath('sos'), { lat: geo.fix.lat, lng: geo.fix.lng });
+  }
+
+  /* =====================================================================
+     REFEREE · runs on the sardine's phone. Answers questions from both
+     positions, applies tin lies, plays squeaks, watches for wandering.
+     The sardine's position never leaves this phone until the round ends.
+     ===================================================================== */
+  const handled = new Set();
+  function referee() {
+    const r = curRound(); if (!r || r.sardine !== ME || !relay) return;
+    const n = now(), I = rinfo(r, n), rk = curN() + ':' + r.startAt;
+    if (I.done) {
+      const sp = getSpot();
+      if (!isFix(r.spot) && I.why !== 'sos' && sp) relay.set(rpath('spot'), { lat: sp.lat, lng: sp.lng });
+      return;
+    }
+    if (I.phase !== 'hunt') return;
+    if (!getSpot() && geo.fix) putSpot({ lat: geo.fix.lat, lng: geo.fix.lng, acc: geo.fix.acc });
+    questions(r).forEach((q) => { if (!q.ans && !handled.has(rk + q.id)) { handled.add(rk + q.id); answerQ(r, q, rk); } });
+    movedCheck(r);
+  }
+  async function answerQ(r, q, rk) {
+    const n = now();
+    if (q.at < rinfo(r, n).huntAt - 5000 || n - q.at > QUIET_MS) { relay.patch(rpath('q/' + q.id), { ans: 'void' }); return; }
+    const hf = await freshFix(45000);
+    const r2 = curRound(); if (!r2 || r2.startAt !== r.startAt || !relay) return;
+    if (!hf) { handled.delete(rk + q.id); return; }               // try again on the next tick
+    const cur = obj(r2.q)[q.id]; if (!cur || cur.ans) return;
+    let a = answer(q.k, q, hf, prevFix(r2, q), r2.sqr);
+    const upd = { ans: a };
+    if (FLIP[a] && r2.lies) {
+      const fib = Object.entries(obj(r2.fib)).find(([fp, f]) => f && f.to === q.p && !f.q && obj(r2.tin)[fp]);
+      if (fib) { upd.ans = FLIP[a]; upd.f = fib[0]; relay.patch(rpath('fib/' + fib[0]), { q: q.id }); }
+    }
+    relay.patch(rpath('q/' + q.id), upd);
+    if (a === 'sounded') { squeakSound(3); buzz([300, 100, 300, 100, 600]); view.sqOverlay = Date.now(); view.sqBy = q.p; showSqueaked(); }
+  }
+  function movedCheck(r) {
+    const sp = getSpot(), f = geo.fix;
+    if (!sp || !f || Date.now() - f.t > 60000) return;
+    const d = dist(f, sp), mv = obj(r.moved);
+    if (f.acc <= 50 && d > MOVED_M && (!mv.on || Math.abs((mv.d || 0) - d) > 30)) relay.set(rpath('moved'), { on: 1, d: Math.round(d), at: SV });
+    else if (mv.on && d < BACK_M) relay.set(rpath('moved'), { on: 0, d: Math.round(d), at: SV });
+  }
+  onFixHook = () => { referee(); refresh(); };
+
+  function noticeTaunts() {           // Cats: a new taunt pops up with a splat
+    const r = curRound();
+    const all = r ? Object.entries(obj(r.taunt)).filter(([, t]) => t && typeof t.at === 'number') : [];
+    if (view.seenT === null || view.seenRound !== curN()) { view.seenT = new Set(all.map(([k]) => k)); view.seenRound = curN(); return; }
+    all.forEach(([k, t]) => {
+      if (view.seenT.has(k)) return; view.seenT.add(k);
+      if (!r || r.sardine === ME || now() - t.at > 90000) return;
+      showTaunt(nameOf(r.sardine), String(t.text || '').slice(0, 80));
+    });
+  }
+
+  /* =====================================================================
+     SCREENS
+     ===================================================================== */
+  const app = $('#app'), layer = $('#layer');
+  const CREDIT = '<p class="credit">A Bouncy Production · Made for Haz</p>';
+  const SOSB = '<button type="button" class="b-sos" data-act="sos" aria-label="SOS: end the game for everyone">SOS</button>';
+  const IC = {
+    warn: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>',
+    wifi: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/><circle cx="12" cy="19" r="1"/></svg>',
+    phone: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
+    pin: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+    lock: '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c9d3dd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+    back: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+    call: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff8a78" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+    edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+    play: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>',
+    pause: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+    fish: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c3-5 9-6 13-3l5-3v12l-5-3c-4 3-10 2-13-3z"/></svg>',
+  };
+  const banner = (cls, icon, html) => `<div class="banner ${cls}" role="status">${IC[icon]}<span>${html}</span></div>`;
+  function banners(r, I, role) {
+    const b = [];
+    if (link === 'denied') b.push(banner('bn-tom', 'warn', '<b>The tin’s database said no.</b> Check the rules were published in Firebase.'));
+    else if (link === 'offline' || link === 'connecting' || queued) b.push(banner('bn-tin', 'wifi', queued ? '<b>No signal.</b> Your move is waiting and will send when you’re back.' : '<b>No signal.</b> Reconnecting…'));
+    if (r && I && I.phase === 'hunt') {
+      const mv = obj(r.moved);
+      if (mv.on) b.push(role === 'sardine' ? banner('bn-tom', 'warn', `<b>Go back!</b> You’re ${fmtM(mv.d || 0)} from your spot. Everyone’s been told.`) : banner('bn-mus', 'warn', `<b>${esc(nameOf(r.sardine))} has wandered ${fmtM(mv.d || 0)} from their spot.</b> Sid has told everyone.`));
+      if (role !== 'sardine' && quiet(r.sardine)) b.push(banner('bn-soft', 'phone', `<b>${esc(nameOf(r.sardine))}’s phone has gone quiet.</b> Questions paused till it’s back.`));
+    }
+    if (r && I && !I.done && r.zone && r.zone.r) {
+      if (geo.fix && !inZone(geo.fix, r.zone)) b.push(banner('bn-tom', 'warn', '<b>You’re outside the play zone.</b> Head back in.'));
+      const outs = I.cats.concat([r.sardine]).filter((p) => p !== ME && pres(p).out && !quiet(p));
+      if (outs.length) b.push(banner('bn-soft', 'pin', esc(outs.map(nameOf).join(', ')) + (outs.length > 1 ? ' are' : ' is') + ' outside the play zone.'));
+    }
+    if (geo.st === 'asking') b.push(banner('bn-soft', 'pin', 'Asking for your location…'));
+    else if (geo.st === 'wait') b.push(banner('bn-soft', 'pin', 'Waiting for GPS. Stand somewhere a bit more open.'));
+    return b.join('');
+  }
+  function checks(what) {
+    const row = (label, right) => `<div class="between small" style="min-height:40px">${label}${right}</div>`;
+    const ok = '<span class="chip c-soft">On</span>';
+    const loc = geo.st === 'on' ? ok : `<span class="chip c-tom">${geo.st === 'asking' ? 'Asking…' : 'Waiting'}</span>`;
+    const snd = soundOn() ? ok : '<button type="button" class="btn b-mus" style="min-height:40px;font-size:13px;padding:0 12px;border-radius:10px" data-act="sound">Tap to turn on</button>';
+    const scr = wlOk ? ok : `<span class="tiny dim">${'wakeLock' in navigator ? 'Tap the screen once' : 'Set auto-lock to Never'}</span>`;
+    return `<div class="card" style="display:flex;flex-direction:column;gap:2px;padding:8px 14px"><b class="small">Before you go</b>${row('<span>Location</span>', loc)}${row(`<span>Sound (${what})</span>`, snd)}${row('<span>Screen stays on</span>', scr)}</div>`;
+  }
+  const set = (id, html) => { const e = document.getElementById(id); if (e && e.__h !== html) { e.innerHTML = html; e.__h = html; } };
+  const txt = (id, t) => { const e = document.getElementById(id); if (e && e.textContent !== t) e.textContent = t; };
+
+  function screenKey() {
+    if (!store.tin) return 'home';
+    if (!T) return 'connecting';
+    if (!T.game) return store.made === store.tin ? 'connecting' : 'notfound';
+    if (!P()[ME]) return 'connecting';
+    const r = curRound(), n = curN();
+    if (r && r.sos && !r.sos.ok && typeof r.sos.at === 'number') return 'sos:' + n;
+    if (G().over) return 'board';
+    if (!r) return 'lobby';
+    const I = rinfo(r, now());
+    if (I.phase === 'wait') return 'connecting';
+    if (I.done) return (view.replay ? 'replay:' : 'results:') + n;
+    if (r.sardine !== ME && !obj(r.cats)[ME]) return 'spectate:' + n;
+    if (geo.st === 'denied' || geo.st === 'none') return 'geo';
+    if (I.phase === 'pack') return (r.sardine === ME ? 'packS:' : 'packC:') + n;
+    if (r.sardine === ME) return 'hideS:' + n;
+    if (obj(r.tin)[ME]) return 'intin:' + n;
+    return 'hunt:' + n;
+  }
+  const SCR = {};
+  let sheetApi = null;
+  function refresh() {
+    const k = screenKey();
+    if (k !== curKey) {
+      if (screenApi && screenApi.destroy) screenApi.destroy();
+      curKey = k; app.innerHTML = '';
+      const name = k.split(':')[0];
+      if (view.sheet && !(name === 'lobby' && (view.sheet === 'pick' || view.sheet === 'zone')) && !(['hunt', 'hideS', 'packS', 'packC', 'intin'].includes(name) && ['sos', 'found', 'taunt', 'fib'].includes(view.sheet))) closeSheet();
+      screenApi = SCR[name] ? SCR[name]() || {} : {};
+      window.scrollTo(0, 0);
+    }
+    if (screenApi.update) screenApi.update();
+    if (sheetApi && sheetApi.update) sheetApi.update();
+    const name = curKey.split(':')[0];
+    if (['packS', 'packC', 'hideS', 'hunt', 'intin', 'sos'].includes(name)) wake(); else if (name === 'home') unwake();
+  }
+
+  /* ---------- home ---------- */
+  SCR.home = () => {
+    let pre = ''; try { pre = normCode(new URLSearchParams(location.search).get('tin') || '').slice(0, 6); } catch (e) {}
+    app.innerHTML = `<div class="scr">
+      <div class="label home-label"><div class="in">
+        <span class="kick">FINEST QUALITY · EST. 2026</span>
+        <h1 class="home-title">SARDINES</h1>${sid('smug', 200)}
+        <b style="font-size:15px">Hide &amp; seek, packed fresh.</b>
+        <span class="small">One hides. Everyone hunts. All end up in the tin.</span>
+      </div></div>
+      <div class="field"><label for="nm">Your name</label><input id="nm" class="inp" maxlength="16" autocomplete="nickname" value="${esc(store.name || '')}" placeholder="What do the Cats call you?"></div>
+      <button type="button" class="btn big b-mus" data-act="create">Open a new tin</button>
+      <div class="or">or join one</div>
+      <div class="join-row"><label class="codebox"><span class="small dim">Tin no.</span><input id="cd" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(pre)}" placeholder="KQ7F2M" aria-label="Tin number"></label><button type="button" class="btn b-out" data-act="join">Join</button></div>
+      <p id="err" class="small" role="alert" style="color:var(--pink);min-height:1.2em;margin:0">${esc(view.err)}</p>
+      ${DB ? '' : '<p class="tiny faint center" style="margin:0">Demo mode: tins only work between tabs on this device until the Firebase address is added to sync-config.js.</p>'}
+      <div class="grow"></div>${CREDIT}</div>`;
+    view.err = '';
+    $('#cd', app).addEventListener('keydown', (e) => { if (e.key === 'Enter') ACT.join(); });
+    $('#nm', app).addEventListener('keydown', (e) => { if (e.key === 'Enter') (normCode($('#cd', app).value) ? ACT.join : ACT.create)(); });
+    return {};
+  };
+  SCR.connecting = () => {
+    app.innerHTML = `<div class="scr"><div class="grow"></div><div class="center" style="display:flex;flex-direction:column;align-items:center;gap:12px">${sid('smug', 160)}<div class="row"><span class="spin"></span><b>Opening tin ${esc(store.tin || '')}…</b></div><p class="small dim" id="cmsg" style="margin:0"></p></div><div class="grow"></div><button type="button" class="btn b-ghost" data-act="leave">Back</button>${CREDIT}</div>`;
+    return { update() { txt('cmsg', link === 'denied' ? 'The database said no. Check the Firebase rules are published.' : link === 'offline' ? 'No signal. Trying again…' : ''); } };
+  };
+  SCR.notfound = () => {
+    app.innerHTML = `<div class="scr"><div class="grow"></div><div class="center" style="display:flex;flex-direction:column;align-items:center;gap:10px">${sid('shock', 180)}<h1 class="h1">No tin with that number</h1><p class="dim" style="margin:0">Check the 6 characters with whoever opened it.${DB ? '' : ' In demo mode, tins only exist in this browser.'}</p></div><button type="button" class="btn big b-mus" data-act="leave">Back</button><div class="grow"></div>${CREDIT}</div>`;
+    return {};
+  };
+
+  /* ---------- lobby ---------- */
+  SCR.lobby = () => {
+    const code = store.tin, url = location.origin + location.pathname + '?tin=' + code;
+    app.innerHTML = `<div class="scr">
+      <div class="label"><div class="in lobby-top">
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0;align-items:flex-start">
+          <span class="kick">TIN NO.</span><span class="tinno">${esc(code)}</span>
+          <button type="button" class="btn" style="min-height:44px;border:2px solid var(--ink);color:var(--ink);font-size:14px;margin-top:4px" data-act="share">Share link</button>
+        </div>
+        <div class="qr" id="qr" role="img" aria-label="QR code that opens this tin"></div>
+      </div></div>
+      <div id="lnote"></div>
+      <div class="between"><h2 class="h2" id="pcount">Who’s playing</h2><span class="small dim" id="pready"></span></div>
+      <div class="plist" id="plist"></div>
+      <div class="settings" id="sets"></div>
+      <div class="grow"></div>
+      <div id="startbox"></div>
+      <button type="button" class="btn b-ghost" style="min-height:44px" data-act="leave">Leave tin</button>
+      ${CREDIT}</div>`;
+    try { const q = window.qrcode(0, 'M'); q.addData(url); q.make(); $('#qr', app).innerHTML = q.createSvgTag({ scalable: true, margin: 1 }); } catch (e) {}
+    return {
+      update() {
+        const s = sets(), ps = plist(), host = hostId(), amHost = host === ME;
+        set('lnote', (relay && relay.demo ? banner('bn-soft', 'phone', '<b>Demo mode.</b> Only tabs on this device can join. Add the Firebase address in sync-config.js to play for real.') : '') + (link !== 'online' ? banners(null, null, '') : ''));
+        txt('pcount', `Who’s playing (${ps.length})`);
+        let ready = 0;
+        set('plist', ps.map((x) => {
+          const pr = pres(x.p), here = !quiet(x.p), on = here && pr.loc === 1; if (on) ready++;
+          const role = [x.p === ME ? 'you' : '', x.p === host ? 'host' : ''].filter(Boolean).join(' · ');
+          const chip = on ? '<span class="chip c-soft">Location on</span>' : here ? '<span class="chip c-tom">Location off</span>' : '<span class="chip c-soft" style="opacity:.7">Not here</span>';
+          return `<div class="prow"><div class="ava">${esc(x.name.slice(0, 1).toUpperCase())}</div><div style="min-width:0"><div class="pname">${esc(x.name)}</div>${role ? `<div class="tiny dim">${role}</div>` : ''}</div>${chip}</div>`;
+        }).join(''));
+        txt('pready', `${ready} of ${ps.length} ready`);
+        const pickName = s.pick !== 'random' && P()[s.pick] ? nameOf(s.pick) : 'Random';
+        const zoneTxt = s.zone && s.zone.r ? fmtM(s.zone.r) + ' circle' : 'Off';
+        const rows = [['pick', 'The sardine', pickName], ['pack', 'Packing time', s.pack + ' min'], ['limit', 'Hunt limit', s.limit + ' min'], ['cool', 'One question every', s.cool + ' min'], ['sqr', 'Squeak range', s.sqr + 'm'], ['zone', 'Play zone', zoneTxt], ['lies', 'Tin lies', s.lies ? 'On · 1 each' : 'Off']];
+        set('sets', rows.map(([k, l, v]) => amHost
+          ? `<button type="button" class="set" data-act="setting" data-k="${k}"><span>${l}</span><span class="v">${esc(v)}${IC.edit}</span></button>`
+          : `<div class="set"><span>${l}</span><span class="v">${esc(v)}</span></div>`).join(''));
+        if (amHost) {
+          const who = s.pick !== 'random' && P()[s.pick] ? nameOf(s.pick) + ' hides' : 'random sardine';
+          set('startbox', ps.length < 2 ? `<button type="button" class="btn big b-mus" disabled>Start packing</button><p class="small dim center" style="margin:6px 0 0">Need at least 2 players. Share the tin number.</p>`
+            : `<button type="button" class="btn big b-mus" data-act="start">Start packing: ${esc(who)}</button>`);
+        } else set('startbox', `<p class="center dim" style="margin:0">Waiting for ${esc(nameOf(host))} to start the round.</p>`);
+      },
+    };
+  };
+
+  /* ---------- packing time ---------- */
+  SCR.packS = () => {
+    const r = curRound(), others = rinfo(r, now()).cats.length;
+    app.innerHTML = `<div class="scr">
+      <div class="between"><span class="chip c-mus">You’re the sardine</span>${SOSB}</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">${sid('smug', 180)}
+        <span class="small dim">Packing time. Go, go, go.</span><span class="bigclock" style="color:var(--mustard)" id="clk">–:––</span><span class="small dim">until the Cats are let out</span></div>
+      <div class="paper" style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.4"><b class="slab red" style="font-size:17px">Sid’s packing tips</b>
+        <span>Pick somewhere ${others} more ${others === 1 ? 'person' : 'people'} could squeeze in.</span>
+        <span>${r.zone && r.zone.r ? 'Stay inside the play zone. ' : ''}No buses, you cheeky thing.</span>
+        <span>When the clock hits zero your spot locks. Wander more than 60m and everyone’s told.</span></div>
+      <div class="card between"><span>Your secret word</span><b class="slab" style="font-size:22px;letter-spacing:2px">${esc(r.word)}</b></div>
+      <div id="bn" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div id="chk"></div>
+      <div class="grow"></div><p class="small dim center" style="margin:0">Keep this screen open. It stays on by itself.</p>${CREDIT}</div>`;
+    return { update() { const r2 = curRound(); if (!r2) return; const I = rinfo(r2, now()); txt('clk', left(I.huntAt - now())); set('bn', banners(r2, I, 'sardine')); set('chk', checks('for squeaks')); } };
+  };
+  SCR.packC = () => {
+    const r = curRound();
+    view.packMsg = view.packMsg || say('packC');
+    app.innerHTML = `<div class="scr">
+      <div class="between"><span class="chip c-tin">You’re a Cat</span>${SOSB}</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding-top:6px"><span class="small dim">${esc(nameOf(r.sardine))} is packing themselves away</span><span class="bigclock" style="color:var(--tin)" id="clk">–:––</span><span class="small dim">until you’re let out</span></div>
+      <div style="height:170px;border-radius:18px;border:3px dashed rgba(201,211,221,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:12px">${IC.lock}<b>Map’s in the tin till the hunt starts</b><span class="small dim">Stay together. No peeking.</span></div>
+      <div class="bubble">${sid('taunt', 64)}<div class="paper small">${esc(view.packMsg)}</div></div>
+      <div id="bn" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div id="chk"></div>
+      <div class="grow"></div>${CREDIT}</div>`;
+    return { update() { const r2 = curRound(); if (!r2) return; const I = rinfo(r2, now()); txt('clk', left(I.huntAt - now())); set('bn', banners(r2, I, 'cat')); set('chk', checks('for taunts')); } };
+  };
+
+  /* ---------- the sardine, hiding ---------- */
+  SCR.hideS = () => {
+    const r = curRound();
+    if (now() - rinfo(r, now()).huntAt < 15000) { ding(); buzz([200, 100, 200]); }
+    app.innerHTML = `<div class="scr">
+      <div class="between"><span class="chip c-mus">You’re the sardine</span>${SOSB}</div>
+      <div class="between"><div><div class="small dim">Hunt running</div><div class="midclock" id="run">0:00</div></div><div style="text-align:right"><div class="small dim">You win in</div><div class="midclock" style="color:var(--mustard)" id="win">–:––</div></div></div>
+      <div class="label"><div class="in"><span class="kick">SHOW THIS TO ANYONE WHO FINDS YOU</span><span class="word">${esc(r.word)}</span></div></div>
+      <div id="bn" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div class="between"><b id="tcount"></b><span class="small dim" id="tout"></span></div>
+      <div class="tincells" id="cells"></div>
+      <div class="qlist" id="ql"></div>
+      <button type="button" class="btn big b-tom" data-act="taunt" id="tbtn">Taunt the Cats</button>
+      <p class="small dim center" style="margin:-4px 0 0" id="tnote"></p>
+      <div class="grow"></div><p class="tiny faint center" style="margin:0" id="foot"></p>${CREDIT}</div>`;
+    let lastTin = -1;
+    return {
+      update() {
+        const r2 = curRound(); if (!r2) return;
+        const n = now(), I = rinfo(r2, n), inN = I.tin.length;
+        txt('run', gone(n - I.huntAt)); txt('win', left(I.endAt - n));
+        set('bn', banners(r2, I, 'sardine'));
+        if (lastTin >= 0 && inN > lastTin) { ding(); buzz(120); }
+        lastTin = inN;
+        txt('tcount', `${inN + 1} of ${I.cats.length + 1} in the tin`);
+        txt('tout', `${I.cats.length - inN} Cat${I.cats.length - inN === 1 ? '' : 's'} still out`);
+        set('cells', I.cats.map((p) => `<div class="tc ${I.tin.some((t) => t.p === p) ? 'in' : 'out'}">${esc(nameOf(p))}</div>`).join(''));
+        const qs = questions(r2).filter((q) => q.at >= I.huntAt - 5000).slice(-6).reverse();
+        set('ql', qs.map((q) => `<div class="qrow"><span>${esc(nameOf(q.p))} · ${QK[q.k]}</span><span class="a">${q.ans ? ANS[q.ans] + (q.f ? ' (fibbed)' : '') : '…'}</span></div>`).join(''));
+        const ts = tauntState(r2, ME, n), b = $('#tbtn', app);
+        if (b) b.disabled = !ts.can;
+        txt('tnote', ts.bonus ? `${ts.bonus} bonus taunt${ts.bonus > 1 ? 's' : ''} from squeaks` : ts.regReady ? 'Goes to every Cat still hunting.' : `Next taunt in ${left(ts.regAt - n)}`);
+        txt('foot', `${soundOn() ? 'Sound on' : 'Sound off: tap anywhere'} · ${wlOk ? 'Screen staying on' : 'Keep this screen open'} · ${geo.st === 'on' ? 'GPS ±' + geo.fix.acc + 'm' : 'No GPS yet'}`);
+      },
+    };
+  };
+
+  /* ---------- a Cat, hunting ---------- */
+  const PAL = ['#f2b631', '#ff8a78', '#7fd1c7', '#c9a2ff', '#9fd36b', '#6fb7ff', '#ffc2d6', '#e8e8e8'];
+  function lineFor(q, mine) {
+    if (!q.ans) return say('wait');
+    if (q.k === 'sq') return q.ans === 'void' ? say('void') : say('sq');
+    return say(q.ans === 'void' ? 'void' : q.ans);
+  }
+  function qItems(qs) {          // map shapes for a Cat's own answered questions
+    const out = [];
+    qs.forEach((q, i) => {
+      if (!isFix(q)) return;
+      if ((q.k === 'w100' || q.k === 'w300') && (q.ans === 'yes' || q.ans === 'no')) out.push({ t: 'circle', lat: q.lat, lng: q.lng, r: q.k === 'w100' ? 100 : 300, stroke: q.ans === 'yes' ? '#f2b631' : '#c9d3dd', fill: q.ans === 'yes' ? 'rgba(242,182,49,.12)' : 'none', dash: q.ans === 'no' ? '6 6' : '', nofit: true });
+      if ((q.k === 'ns' || q.k === 'ew') && 'nsew'.includes(q.ans)) {
+        const dLat = 400 / 111320, dLng = 400 / (111320 * Math.cos(rad(q.lat)));
+        out.push({ t: 'line', stroke: 'rgba(242,182,49,.8)', dash: '8 6', w: 2, pts: q.k === 'ns' ? [{ lat: q.lat, lng: q.lng - dLng }, { lat: q.lat, lng: q.lng + dLng }] : [{ lat: q.lat - dLat, lng: q.lng }, { lat: q.lat + dLat, lng: q.lng }] });
+      }
+      out.push({ t: 'pin', lat: q.lat, lng: q.lng, html: `<div class="pin">${i + 1}</div>` });
+      if (q.ans && q.k !== 'sq') out.push({ t: 'tag', lat: q.lat, lng: q.lng, text: ANS[q.ans] + ({ n: ' ↑', s: ' ↓', e: ' →', w: ' ←' }[q.ans] || '') });
+    });
+    return out;
+  }
+  SCR.hunt = () => {
+    const r = curRound();
+    if (now() - rinfo(r, now()).huntAt < 15000) { ding(); buzz([200, 100, 200]); }
+    app.innerHTML = `<div class="scr">
+      <div class="topbar"><span class="chip c-tin" style="justify-self:start">You’re a Cat</span><span class="small dim" id="run"></span>${SOSB}</div>
+      <div class="between"><b id="tcount"></b><span class="small dim" id="left"></span></div>
+      <div id="bn" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div style="position:relative"><div id="map"></div><div class="nomap" id="nomap" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;pointer-events:none"></div></div>
+      <div class="bubble">${sid('smug', 64)}<div class="paper small" id="sidsay" aria-live="polite"></div></div>
+      <p class="small dim" style="margin:0" id="tstate"></p>
+      <div class="qgrid" id="qg">
+        <button type="button" class="qbtn" data-act="ask" data-k="hc">Hotter or colder?<small id="hcnote"></small></button>
+        <button type="button" class="qbtn" data-act="ask" data-k="ns">North or south?</button>
+        <button type="button" class="qbtn" data-act="ask" data-k="w100">Within 100m?</button>
+        <button type="button" class="qbtn" data-act="ask" data-k="ew">East or west?</button>
+        <button type="button" class="qbtn" data-act="ask" data-k="w300">Within 300m?</button>
+        <button type="button" class="qbtn sq" style="grid-column:auto" data-act="ask" data-k="sq">Squeak!<small>if they’re close, their phone shrieks</small></button>
+      </div>
+      <button type="button" class="btn big b-mus" data-act="found">Found the tin!</button>
+      <div class="qlist" id="ql"></div>
+      <div class="grow"></div>${CREDIT}</div>`;
+    const map = makeMap($('#map', app), 'Map of where you asked your questions');
+    let seen = null;
+    return {
+      destroy() { map.destroy(); },
+      update() {
+        const r2 = curRound(); if (!r2) return;
+        const n = now(), I = rinfo(r2, n);
+        txt('run', 'Hunting · ' + gone(n - I.huntAt));
+        txt('tcount', `${I.tin.length + 1} of ${I.cats.length + 1} in the tin`);
+        txt('left', left(I.endAt - n) + ' left');
+        set('bn', banners(r2, I, 'cat'));
+        const mine = questions(r2).filter((q) => q.p === ME && q.at >= I.huntAt - 5000);
+        if (seen === null) seen = new Set(mine.filter((q) => q.ans).map((q) => q.id));
+        mine.forEach((q) => { if (q.ans && !seen.has(q.id)) { seen.add(q.id); view.msgs[q.id] = lineFor(q); ding(); buzz(80); } });
+        const last = mine[mine.length - 1];
+        txt('sidsay', last ? (view.msgs[last.id] || (view.msgs[last.id] = lineFor(last))) : (view.msgs.ready || (view.msgs.ready = say('ready'))));
+        const ts = turnState(r2, ME, n), paused = quiet(r2.sardine), noGeo = geo.st !== 'on';
+        txt('tstate', ts.waiting ? `Waiting for ${nameOf(r2.sardine)}’s phone to answer…` : paused ? 'Questions paused while the sardine’s phone is quiet.' : noGeo ? 'Waiting for your GPS before you can ask.' : ts.ready ? `Question ready. After you ask, they rest for ${r2.cool || 3} min.` : `Next question in ${left(ts.readyAt - n)}`);
+        const can = ts.ready && !paused && !noGeo, hasPrev = mine.some((q) => isFix(q) && q.ans !== 'void');
+        app.querySelectorAll('#qg .qbtn').forEach((b) => { b.disabled = !can || (b.dataset.k === 'hc' && !hasPrev); });
+        txt('hcnote', hasPrev ? 'vs where you last asked' : 'ask anything else first');
+        set('ql', mine.slice().reverse().map((q, i) => `<div class="qrow"><span>${mine.length - i}. ${QK[q.k]} <span class="tiny dim">${gone(q.at - I.huntAt)}</span></span><span class="a">${!q.ans ? '…' : q.k === 'sq' ? (q.ans === 'void' ? 'Refunded' : 'Sent') : q.ans === 'close' || q.ans === 'void' ? ANS[q.ans] + ' · refunded' : ANS[q.ans]}</span></div>`).join(''));
+        const items = [];
+        if (r2.zone && r2.zone.r) items.push({ t: 'circle', lat: r2.zone.lat, lng: r2.zone.lng, r: r2.zone.r, stroke: '#e5533d', dash: '10 8', nofit: true });
+        items.push(...qItems(mine.filter((q) => q.ans)));
+        if (geo.fix) { items.push({ t: 'pin', lat: geo.fix.lat, lng: geo.fix.lng, html: '<div class="me"></div>' }); if (!mine.some((q) => q.ans && isFix(q) && dist(q, geo.fix) < 30)) items.push({ t: 'tag', lat: geo.fix.lat, lng: geo.fix.lng, text: 'You' }); }
+        map.set(items);
+        set('nomap', geo.fix ? '' : '<span class="small" style="background:rgba(11,31,51,.85);padding:8px 12px;border-radius:10px">Finding you on the map…</span>');
+      },
+    };
+  };
+
+  /* ---------- in the tin ---------- */
+  SCR.intin = () => {
+    const r = curRound(), I = rinfo(r, now()), idx = I.tin.findIndex((t) => t.p === ME), me = I.tin[idx];
+    app.innerHTML = `<div class="scr">
+      <div class="between"><span class="chip c-tom">In the tin · sardine #${idx + 2}</span>${SOSB}</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center">${sid('squash', 200)}
+        <h1 class="h1">Sardine #${idx + 2}!</h1>
+        <p class="dim" style="margin:0">In the tin after ${gone(me.at - I.huntAt)}. ${esc(say('tin'))}</p></div>
+      <div id="bn" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div class="between"><b id="tcount"></b><span class="small dim" id="left"></span></div>
+      <div class="tincells" id="cells"></div>
+      <div id="fib"></div>
+      <p class="small dim center" style="margin:0">Your questions are off. Keep quiet and keep this screen open.</p>
+      <div class="grow"></div>${CREDIT}</div>`;
+    return {
+      update() {
+        const r2 = curRound(); if (!r2) return;
+        const n = now(), I2 = rinfo(r2, n);
+        set('bn', banners(r2, I2, 'tin'));
+        txt('tcount', `${I2.tin.length + 1} of ${I2.cats.length + 1} in the tin`);
+        txt('left', left(I2.endAt - n) + ' left');
+        set('cells', [`<div class="tc in">${esc(nameOf(r2.sardine))}</div>`].concat(I2.cats.map((p) => `<div class="tc ${I2.tin.some((t) => t.p === p) ? 'in' : 'out'}">${esc(nameOf(p))}</div>`)).join(''));
+        const f = obj(obj(r2.fib)[ME]);
+        if (!r2.lies) set('fib', '');
+        else if (!f.to) set('fib', `<button type="button" class="btn big b-ink" data-act="fib">Spend my fib</button><p class="tiny dim center" style="margin:4px 0 0">One lie per round: flip a Cat’s next answer.</p>`);
+        else set('fib', `<div class="card small">Your fib is aimed at <b>${esc(nameOf(f.to))}</b>. ${f.q ? 'It’s been used. Delicious.' : 'It fires on their next answer.'}</div>`);
+      },
+    };
+  };
+  SCR.spectate = () => {
+    const r = curRound();
+    app.innerHTML = `<div class="scr"><div class="grow"></div><div class="center" style="display:flex;flex-direction:column;align-items:center;gap:10px">${sid('smug', 170)}<h1 class="h1">Round in progress</h1><p class="dim" style="margin:0">${esc(nameOf(r.sardine))} is hiding. You’ll be in the next round.</p><b class="midclock" id="left"></b><span class="small dim" id="tcount"></span></div><div class="grow"></div><button type="button" class="btn b-ghost" data-act="leave">Leave tin</button>${CREDIT}</div>`;
+    return { update() { const r2 = curRound(); if (!r2) return; const I = rinfo(r2, now()); txt('left', I.phase === 'pack' ? 'Packing ' + left(I.huntAt - now()) : left(I.endAt - now())); txt('tcount', `${I.tin.length + 1} of ${I.cats.length + 1} in the tin`); } };
+  };
+  SCR.geo = () => {
+    app.innerHTML = `<div class="scr"><div class="grow"></div><div class="center" style="display:flex;flex-direction:column;align-items:center;gap:10px">${sid('shock', 170)}<h1 class="h1">Sid can’t find you</h1>
+      <p class="dim" style="margin:0">${geo.st === 'none' ? 'This browser has no location. Try Safari or Chrome.' : 'Location is blocked for this site. Sardines needs it to answer questions.'}</p></div>
+      <div class="card small" style="line-height:1.5"><b>iPhone:</b> Settings › Privacy &amp; Security › Location Services › Safari Websites › While Using. Then reload.<br><b>Android:</b> tap the icon left of the address bar › Permissions › Location › Allow.</div>
+      <button type="button" class="btn big b-mus" data-act="geo">Try again</button><div class="grow"></div>${SOSB.replace('b-sos', 'b-sos btn')}${CREDIT}</div>`;
+    return {};
+  };
+
+  /* ---------- results ---------- */
+  function roundText(r, sc) {
+    const I = sc.I, dur = gone(I.doneAt - I.huntAt), sp = sc.pts[r.sardine] || 0, nm = esc(nameOf(r.sardine));
+    if (sc.sos) return { title: 'Round stopped', line: `Someone pressed SOS, so this round doesn’t count. ${nm} hides again next round.` };
+    if (I.why === 'full') return { title: 'Tin’s full!', line: `${nm} stayed packed for ${dur}: <b>+${sp} point${sp === 1 ? '' : 's'}</b>. Very fishy.` };
+    return { title: 'Time’s up!', line: I.tin.length ? `${nm} held out for the full ${dur}: <b>+${sp} points</b>.` : `Nobody found ${nm}! ${dur} untouched: <b>+${sp} points</b> including the never-found bonus.` };
+  }
+  SCR.results = () => {
+    const r = curRound(), n = curN(), sc = score(r, Infinity), rt = roundText(r, sc), I = sc.I;
+    const oc = ouch(r), nx = nextSardine(r, P());
+    const rows = I.cats.map((p) => { const t = I.tin.findIndex((x) => x.p === p); return { p, t, at: t >= 0 ? I.tin[t].at : null }; })
+      .sort((a, b) => (a.t < 0) - (b.t < 0) || a.t - b.t);
+    const lastIn = I.tin[I.tin.length - 1];
+    const nxWhy = sc.sos ? '' : I.tin.length < I.cats.length ? `${esc(nameOf(nx))} never made it into the tin, so Sid picked them to pack next.` : `${esc(nameOf(nx))} was last in, so ${esc(nameOf(nx))} is next round’s sardine.`;
+    const ek = n + ':' + r.startAt; if (view.endDing !== ek) { view.endDing = ek; ding(); buzz([150, 80, 150]); }
+    app.innerHTML = `<div class="scr">
+      <div class="label"><div class="in"><span class="kick">TIN NO. ${esc(store.tin)} · ROUND ${n}</span><h1 class="h1 red">${rt.title}</h1>${sid(sc.sos ? 'shock' : I.why === 'full' ? 'squash' : 'taunt', 150)}<span class="small">${rt.line}</span></div></div>
+      ${sc.sos ? '' : `<div class="plist">${rows.map((x, i) => {
+        const notes = [`${usedTurns(r, x.p)} question${usedTurns(r, x.p) === 1 ? '' : 's'}`];
+        if (sc.notes[x.p] === 'thrifty') notes.push('thrifty +1');
+        if (oc && oc.p === x.p) notes.push('Ouch of the round');
+        if (x.p === nx) notes.push(lastIn && lastIn.p === x.p ? 'Last in · packs next' : 'Packs next');
+        return `<div class="rank"><span class="n">${x.t >= 0 ? i + 1 : '–'}</span><div style="min-width:0"><div class="pname">${esc(nameOf(x.p))}${x.p === ME ? ' (you)' : ''}</div><div class="tiny dim">${notes.join(' · ')}</div></div><div class="pts"><b>${sc.pts[x.p] ? '+' + sc.pts[x.p] : '0'}</b><span class="tiny dim">${x.at ? gone(x.at - I.huntAt) : 'never found'}</span></div></div>`;
+      }).join('')}</div>`}
+      ${nxWhy ? `<div class="bubble">${sid('smug', 64)}<div class="paper small">${nxWhy}</div></div>` : ''}
+      <div class="grow"></div>
+      <div id="act"></div>
+      ${CREDIT}</div>`;
+    return {
+      update() {
+        const amHost = hostId() === ME, r2 = curRound(); if (!r2) return;
+        const armed = Date.now() - view.endArm < 4000;
+        set('act', `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button type="button" class="btn b-out" data-act="replay"${sc.sos ? ' disabled' : ''}>Watch replay</button>${amHost ? `<button type="button" class="btn ${armed ? 'b-tom' : 'b-ghost'}" data-act="endgame">${armed ? 'Tap again to end' : 'End game'}</button>` : '<button type="button" class="btn b-ghost" data-act="leave">Leave tin</button>'}</div>` +
+          (amHost ? `<button type="button" class="btn big b-mus" style="margin-top:8px" data-act="next">Next round: ${esc(nameOf(nx))} packs</button>` : `<p class="center dim" style="margin:8px 0 0">Waiting for ${esc(nameOf(hostId()))} to start the next round.</p>`));
+      },
+    };
+  };
+
+  /* ---------- replay ---------- */
+  SCR.replay = () => {
+    const r = curRound(), I = rinfo(r, Infinity), cats = I.cats, spot = tinSpot(r, I), oc = ouch(r);
+    const col = {}; cats.forEach((p, i) => { col[p] = PAL[i % PAL.length]; });
+    const span = Math.max(1000, I.doneAt - I.huntAt);
+    let t = span, timer = null;
+    const fibs = questions(r).filter((q) => q.f), sqs = questions(r).filter((q) => q.k === 'sq' && q.ans);
+    app.innerHTML = `<div class="scr">
+      <div class="seg" style="grid-template-columns:1fr 1fr"><button type="button" data-act="results" aria-pressed="false">Results</button><button type="button" aria-pressed="true">Replay</button></div>
+      <div id="map"></div>
+      <div class="legend">${cats.map((p) => `<span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${col[p]};margin-right:6px;vertical-align:-1px"></span>${esc(nameOf(p))}</span>`).join('')}<span>🐟 The tin (${esc(nameOf(r.sardine))})</span></div>
+      <div class="scrub"><button type="button" class="play" id="play" aria-label="Play">${IC.play}</button><input type="range" id="rng" min="0" max="1000" value="1000" aria-label="Replay time"><span class="small" id="rt"></span></div>
+      <h2 class="h2">Sid’s awards</h2>
+      <div class="awards">
+        ${oc ? `<div class="card small"><b>Ouch of the round:</b> ${esc(nameOf(oc.p))} asked “${QK[oc.q.k].replace('!', '').toLowerCase()}” ${fmtM(oc.d)} from the tin, then wandered off.</div>` : '<div class="card small">No ouches this round. Disappointingly competent.</div>'}
+        ${fibs.map((q) => `<div class="card small"><b>Fibbed:</b> that was ${esc(nameOf(q.f))}. ${esc(nameOf(q.p))}’s “${QK[q.k]} ${ANS[q.ans]}” at ${gone(q.at - I.huntAt)} was a lie.</div>`).join('')}
+        ${Object.entries(obj(r.fib)).filter(([, f]) => f && f.to && !f.q).map(([fp, f]) => `<div class="card small">${esc(nameOf(fp))} aimed a fib at ${esc(nameOf(f.to))}, but it never got used.</div>`).join('')}
+        ${sqs.length ? `<div class="card small"><b>Squeaks:</b> ${sqs.map((q) => `${esc(nameOf(q.p))} ${q.ans === 'sounded' ? '(heard!)' : q.ans === 'far' ? '(too far)' : '(no answer)'}`).join(', ')}</div>` : ''}
+      </div>
+      <div class="grow"></div>${CREDIT}</div>`;
+    const map = makeMap($('#map', app), 'Replay map of everyone’s questions');
+    const rng = $('#rng', app), play = $('#play', app);
+    function draw() {
+      const at = I.huntAt + t, items = [];
+      if (spot) items.push({ t: 'pin', lat: spot.lat, lng: spot.lng, html: '<div class="pin" style="background:var(--mustard)">🐟</div>' });
+      cats.forEach((p) => {
+        const qs = questions(r).filter((q) => q.p === p && isFix(q) && q.at <= at && q.at >= I.huntAt - 5000);
+        const f = I.tin.find((x) => x.p === p && x.at <= at);
+        const pts = qs.map((q) => ({ lat: q.lat, lng: q.lng })); if (f && spot) pts.push({ lat: spot.lat, lng: spot.lng });
+        if (pts.length > 1) items.push({ t: 'line', pts, stroke: col[p], w: 3 });
+        qs.forEach((q) => items.push({ t: 'pin', lat: q.lat, lng: q.lng, html: `<div style="width:10px;height:10px;border-radius:50%;background:${col[p]};border:2px solid #0b1f33"></div>` }));
+        const lq = qs[qs.length - 1]; if (lq && !f) items.push({ t: 'tag', lat: lq.lat, lng: lq.lng, text: nameOf(p) });
+      });
+      if (oc && oc.q.at <= at) items.push({ t: 'tag', lat: oc.q.lat, lng: oc.q.lng, text: `${nameOf(oc.p)}: ${fmtM(oc.d)} away!`, cls: 'tom' });
+      map.set(items);
+      txt('rt', `${gone(t)} / ${gone(span)}`);
+    }
+    const stop = () => { clearInterval(timer); timer = null; play.innerHTML = IC.play; play.setAttribute('aria-label', 'Play'); };
+    rng.addEventListener('input', () => { stop(); t = span * rng.value / 1000; draw(); });
+    play.addEventListener('click', () => {
+      if (timer) return stop();
+      if (t >= span) t = 0;
+      play.innerHTML = IC.pause; play.setAttribute('aria-label', 'Pause');
+      timer = setInterval(() => { t = Math.min(span, t + span / 120); rng.value = Math.round(t / span * 1000); draw(); if (t >= span) stop(); }, 100);
+    });
+    if (!spot) set('rt', 'No tin spot was shared');
+    draw(); map.refit();
+    return { destroy() { stop(); map.destroy(); } };
+  };
+
+  /* ---------- game over ---------- */
+  SCR.board = () => {
+    const rounds = obj(T.rounds), ns = Object.keys(rounds).map(Number).filter((k) => rounds[k] && score(rounds[k], Infinity) && !score(rounds[k], Infinity).sos).sort((a, b) => a - b);
+    const bd = board(rounds, P()), win = bd[0];
+    let slip = null, och = null;
+    ns.forEach((k) => {
+      const r = rounds[k], sc = score(r, Infinity); if (sc.sos) return;
+      const d = sc.I.doneAt - sc.I.huntAt, never = !sc.I.tin.length;
+      if (!slip || never > slip.never || (never === slip.never && d > slip.d)) slip = { p: r.sardine, d, never };
+      const o = ouch(r); if (o && (!och || o.d < och.d)) och = o;
+    });
+    app.innerHTML = `<div class="scr">
+      <div class="label"><div class="in"><span class="kick">GAME OVER · ${ns.length} ROUND${ns.length === 1 ? '' : 'S'}</span>${sid('crown', 160)}
+        ${win && ns.length ? `<span class="small">The Golden Tin goes to</span><h1 class="h1 red">${esc(nameOf(win.p))}</h1><span class="small">${win.total} point${win.total === 1 ? '' : 's'}. Sid is quietly furious.</span>` : '<h1 class="h1 red">No rounds played</h1>'}</div></div>
+      <div class="plist">${bd.map((x, i) => `<div class="rank"><span class="n">${i + 1}</span><div style="min-width:0"><div class="pname">${esc(nameOf(x.p))}${x.p === ME ? ' (you)' : ''}</div><div class="tiny dim">${ns.map((k) => { const e = x.per.find((y) => y.n === k); return e ? e.v + (e.sardine ? ' (sardine)' : '') : '–'; }).join(' · ')}</div></div><div class="pts"><b>${x.total}</b></div></div>`).join('')}</div>
+      <div class="awards">
+        ${slip ? `<div class="card small"><b>Slipperiest sardine:</b> ${esc(nameOf(slip.p))}, ${slip.never ? 'never found' : gone(slip.d) + ' in the tin'}</div>` : ''}
+        ${och ? `<div class="card small"><b>Ouch of the night:</b> ${esc(nameOf(och.p))}, ${fmtM(och.d)} away and walked off</div>` : ''}
+      </div>
+      <div class="grow"></div><div id="act"></div>
+      <button type="button" class="btn b-ghost" style="min-height:44px" data-act="leave">Leave tin</button>${CREDIT}</div>`;
+    return { update() { set('act', hostId() === ME ? '<button type="button" class="btn big b-mus" data-act="newgame">Same tin, new game</button>' : `<p class="center dim" style="margin:0">Waiting for ${esc(nameOf(hostId()))} to start a new game.</p>`); } };
+  };
+
+  /* ---------- SOS ---------- */
+  SCR.sos = () => {
+    const r = curRound(), s = r.sos, mine = s.p === ME;
+    buzz([400, 150, 400, 150, 400]);
+    app.innerHTML = `<div class="scr sos-scr">
+      <span class="chip c-tom">SOS · GAME STOPPED</span>
+      <h1 class="h1">${mine ? 'You’ve called the group' : esc(nameOf(s.p)) + ' needs the group'}</h1>
+      <p class="dim" style="margin:0" id="ago"></p>
+      <div style="width:100%"><div id="map"></div></div>
+      <p style="margin:0" id="where"></p>
+      <div id="dir" style="width:100%"></div>
+      <a class="btn b-ghost" style="width:100%" href="tel:999">${IC.call}Real emergency? Call 999</a>
+      <p class="small dim" style="margin:0">${mine ? 'Everyone can see where you are. Tap “All OK” when it’s sorted.' : `The round won’t count. ${esc(nameOf(s.p))} can tap “All OK” when sorted.`}</p>
+      <div id="ok" style="width:100%"></div>
+      <div class="grow"></div>${CREDIT}</div>`;
+    const map = makeMap($('#map', app), 'Map showing where the SOS came from');
+    return {
+      destroy() { map.destroy(); },
+      update() {
+        const r2 = curRound(); if (!r2 || !r2.sos) return; const s2 = r2.sos;
+        const mins = Math.round((now() - s2.at) / MIN); txt('ago', `Sent ${mins < 1 ? 'just now' : mins + ' min ago'}. Everyone’s been told.`);
+        const items = [], has = isFix(s2);
+        if (has) items.push({ t: 'pin', lat: s2.lat, lng: s2.lng, html: '<div class="pin" style="background:var(--tomato)">!</div>' }, { t: 'tag', lat: s2.lat, lng: s2.lng, text: nameOf(s2.p), cls: 'tom' });
+        if (geo.fix && !mine) items.push({ t: 'pin', lat: geo.fix.lat, lng: geo.fix.lng, html: '<div class="me"></div>' }, { t: 'tag', lat: geo.fix.lat, lng: geo.fix.lng, text: 'You' });
+        map.set(items);
+        set('where', !has ? `<span class="dim">${mine ? 'Your phone has no location yet.' : 'Their phone didn’t share a location. Call them.'}</span>` : mine ? '<span class="dim">Your location updates live.</span>' : geo.fix ? `<b>${esc(nameOf(s2.p))} is ${fmtM(dist(geo.fix, s2))} ${compass(geo.fix, s2)}</b> <span class="small dim">· updates live</span>` : '<span class="dim">Updates live.</span>');
+        set('dir', has && !mine ? `<a class="btn big b-mus" style="width:100%" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=${s2.lat},${s2.lng}&amp;travelmode=walking">Directions in Maps</a>` : '');
+        set('ok', mine || hostId() === ME ? `<button type="button" class="btn big ${mine ? 'b-tin' : 'b-ghost'}" style="width:100%" data-act="sosok">${mine ? 'All OK' : 'Mark all OK (host)'}</button>` : '');
+      },
+    };
+  };
+
+  /* =====================================================================
+     SHEETS · found, taunt, fib, SOS hold, sardine pick, play zone
+     ===================================================================== */
+  function closeSheet() {
+    if (sheetApi && sheetApi.destroy) sheetApi.destroy();
+    sheetApi = null; view.sheet = null; layer.innerHTML = '';
+  }
+  function openSheet(name, html, api, full) {
+    closeSheet(); view.sheet = name;
+    layer.innerHTML = `<div class="sheet-wrap" data-act="${full ? '' : 'closesheet'}"><div class="sheet${full ? ' full' : ''}" role="dialog" aria-modal="true" style="display:flex;flex-direction:column;gap:12px">${html}</div></div>`;
+    sheetApi = (api && api()) || {};
+    if (sheetApi.update) sheetApi.update();
+    const f = layer.querySelector('input,textarea'); if (f && !full) setTimeout(() => { try { f.focus(); } catch (e) {} }, 50);
+  }
+  const back = (label) => `<button type="button" class="row small dim" style="min-height:44px;align-self:flex-start" data-act="closesheet">${IC.back}${label || 'Back'}</button>`;
+
+  function foundSheet() {
+    const r = curRound();
+    openSheet('found', `${back('Back to hunting')}<h1 class="h1">Found the tin?</h1>
+      <p class="dim" style="margin:0">Get ${esc(nameOf(r.sardine))} to flash the secret word, then type it. No word, no tin.</p>
+      <div class="field"><label for="wd">Secret word</label><input id="wd" class="inp" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12" style="font-family:var(--slab);letter-spacing:2px;text-transform:uppercase"></div>
+      <p id="werr" class="small" role="alert" style="color:var(--pink);margin:0;min-height:1.2em"></p>
+      <button type="button" class="btn big b-tom" data-act="squeeze">Squeeze into the tin</button>`, () => {
+      $('#wd', layer).addEventListener('keydown', (e) => { if (e.key === 'Enter') ACT.squeeze(); });
+      return {};
+    });
+  }
+  function tauntSheet() {
+    const r = curRound(), I = rinfo(r, now()), out = I.cats.filter((p) => !I.tin.some((t) => t.p === p)).length;
+    const opts = LINES.taunts.slice().sort(() => Math.random() - 0.5).slice(0, 4);
+    view.tauntPick = opts[0];
+    openSheet('taunt', `${back()}<div class="row">${sid('taunt', 90)}<div><h1 class="h1" style="font-size:26px">Taunt the Cats</h1><span class="small dim">Goes to all ${out} still hunting.</span></div></div>
+      <b class="small">Pick one</b>
+      <div style="display:flex;flex-direction:column;gap:6px" id="topts">${opts.map((o, i) => `<button type="button" class="opt" data-act="tpick" data-i="${i}" aria-pressed="${i === 0}">${esc(o)}</button>`).join('')}</div>
+      <div class="field"><label for="tw">Or write your own</label><input id="tw" class="inp" maxlength="80" placeholder="Something rude but fair"><span class="tiny dim" id="tlen" style="text-align:right">0 / 80</span></div>
+      <button type="button" class="btn big b-tom" data-act="tsend">Send taunt</button>
+      <p class="tiny dim center" style="margin:0">No clues get sent, just shame. Next one in 10 min, or sooner if someone squeaks you.</p>`, () => {
+      const tw = $('#tw', layer);
+      tw.addEventListener('input', () => { txt('tlen', tw.value.length + ' / 80'); layer.querySelectorAll('#topts .opt').forEach((b) => b.setAttribute('aria-pressed', tw.value.trim() ? 'false' : String(opts[b.dataset.i] === view.tauntPick))); });
+      return { opts };
+    });
+  }
+  function fibSheet() {
+    const r = curRound(), I = rinfo(r, now());
+    const out = I.cats.filter((p) => !I.tin.some((t) => t.p === p));
+    view.fibTo = out[0] || null;
+    openSheet('fib', `${back()}<h1 class="h1">Time for a fib</h1>
+      <p class="dim small" style="margin:0">One lie per round. Pick a Cat and their next answer comes out backwards: yes becomes no, hotter becomes colder. A fib can’t touch the squeak. Sound doesn’t lie.</p>
+      <b class="small">Still hunting</b><div style="display:flex;flex-direction:column;gap:6px" id="fopts"></div>
+      <button type="button" class="btn big b-ink" data-act="fibgo" id="fibgo">Flip their next answer</button>
+      <p class="tiny dim center" style="margin:0">Cats aren’t told. Everyone finds out in the replay.</p>`, () => ({
+      update() {
+        const r2 = curRound(); if (!r2) return;
+        set('fopts', out.length ? out.map((p) => { const ts = turnState(r2, p, now()); return `<button type="button" class="opt between" data-act="fibpick" data-p="${esc(p)}" aria-pressed="${view.fibTo === p}"><span>${esc(nameOf(p))}</span><span class="tiny dim">${ts.waiting ? 'asking now' : ts.ready ? 'ready to ask' : 'asks in ' + left(ts.readyAt - now())}</span></button>`; }).join('') : '<p class="dim small">Everyone’s already in the tin.</p>');
+        const b = $('#fibgo', layer); if (b) { b.disabled = !view.fibTo; b.textContent = view.fibTo ? `Flip ${nameOf(view.fibTo)}’s next answer` : 'Flip their next answer'; }
+      },
+    }));
+  }
+  function sosSheet() {
+    let t0 = 0, raf = 0, done = false;
+    openSheet('sos', `<div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;flex:1">
+      <span class="chip c-tom">SOS</span><h1 class="h1">End the game for everyone?</h1>
+      <p class="dim" style="margin:0">Every phone stops the round and shows your location, so the group can come to you.</p>
+      <div class="hold"><svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="100" fill="none" stroke="rgba(229,83,61,.25)" stroke-width="12"/><circle id="ring" cx="110" cy="110" r="100" fill="none" stroke="#e5533d" stroke-width="12" stroke-linecap="round" stroke-dasharray="628.3" stroke-dashoffset="628.3" transform="rotate(-90 110 110)"/></svg>
+        <button type="button" id="holdb" aria-label="Hold for 3 seconds to send SOS">HOLD<span id="holdt">for 3 seconds</span></button></div>
+      <a class="small" href="tel:999" style="color:var(--pink)">Real emergency? Call 999 first. This button only tells your friends.</a>
+      <div class="grow"></div>
+      <button type="button" class="btn big b-tin" style="width:100%" data-act="closesheet">Cancel, I’m fine</button></div>`, () => {
+      const b = $('#holdb', layer), ring = $('#ring', layer);
+      const reset = () => { cancelAnimationFrame(raf); t0 = 0; if (!done) { ring.setAttribute('stroke-dashoffset', '628.3'); txt('holdt', 'for 3 seconds'); } };
+      const step = () => {
+        const p = Math.min(1, (Date.now() - t0) / 3000);
+        ring.setAttribute('stroke-dashoffset', String(628.3 * (1 - p)));
+        txt('holdt', p < 1 ? 'keep holding… ' + Math.ceil(3 - p * 3) + 's' : 'sending');
+        if (p >= 1) { done = true; ACT.sosgo(); return; }
+        raf = requestAnimationFrame(step);
+      };
+      const start = (e) => { if (e) e.preventDefault(); if (t0 || done) return; t0 = Date.now(); buzz(60); raf = requestAnimationFrame(step); };
+      b.addEventListener('pointerdown', start);
+      b.addEventListener('keydown', (e) => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) start(e); });
+      b.addEventListener('keyup', reset);
+      b.addEventListener('contextmenu', (e) => e.preventDefault());
+      window.addEventListener('pointerup', reset); window.addEventListener('pointercancel', reset); window.addEventListener('blur', reset);
+      return { destroy() { cancelAnimationFrame(raf); window.removeEventListener('pointerup', reset); window.removeEventListener('pointercancel', reset); window.removeEventListener('blur', reset); } };
+    }, true);
+  }
+  function pickSheet() {
+    const s = sets();
+    openSheet('pick', `${back()}<h1 class="h1">Who’s the sardine?</h1><p class="dim small" style="margin:0">For the first round. After that, the last one in the tin hides next.</p>
+      <div style="display:flex;flex-direction:column;gap:6px">${[{ p: 'random', name: 'Random (Sid picks)' }].concat(plist()).map((x) => `<button type="button" class="opt" data-act="pickset" data-p="${esc(x.p)}" aria-pressed="${s.pick === x.p}">${esc(x.name)}</button>`).join('')}</div>`);
+  }
+  function zoneSheet() {
+    let r0 = (sets().zone && sets().zone.r) || 800;
+    openSheet('zone', `${back()}<h1 class="h1">Play zone</h1><p class="dim small" style="margin:0">A circle centred where you’re standing now. Anyone who strays out gets a nudge, and everyone sees who’s out.</p>
+      <div class="seg" id="zseg">${OPTS.zoneR.map((v) => `<button type="button" data-act="zpick" data-r="${v}" aria-pressed="false">${v ? fmtM(v) : 'Off'}</button>`).join('')}</div>
+      <div id="zmap"></div><p class="small dim" style="margin:0" id="znote"></p>
+      <button type="button" class="btn big b-mus" data-act="zsave">Save zone</button>`, () => {
+      const map = makeMap($('#zmap', layer), 'Map preview of the play zone');
+      const api = {
+        get r() { return r0; }, setR(v) { r0 = v; api.update(); },
+        update() {
+          layer.querySelectorAll('#zseg button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.r === r0)));
+          const items = [];
+          if (geo.fix) { if (r0) items.push({ t: 'circle', lat: geo.fix.lat, lng: geo.fix.lng, r: r0, stroke: '#e5533d', dash: '10 8', fill: 'rgba(229,83,61,.08)' }); items.push({ t: 'pin', lat: geo.fix.lat, lng: geo.fix.lng, html: '<div class="me"></div>' }); }
+          map.set(items);
+          txt('znote', geo.fix ? (r0 ? `${fmtM(r0)} from here in every direction.` : 'No zone. Play anywhere.') : 'Waiting for your location…');
+        },
+        destroy() { map.destroy(); },
+      };
+      return api;
+    });
+  }
+
+  /* ---------- pop-ups ---------- */
+  let toastTimer = 0;
+  function toast(html, cls, ms) {
+    clearTimeout(toastTimer);
+    let el = $('#toast'); if (!el) { el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); el.addEventListener('click', () => { el.remove(); }); }
+    el.className = 'toast ' + (cls || 'bn-tin'); el.innerHTML = html;
+    toastTimer = setTimeout(() => el.remove(), ms || 3500);
+  }
+  function showTaunt(name, text) {
+    splat(); buzz([80, 60, 160]);
+    toast(`${sid('taunt', 72)}<div><div class="tiny" style="font-weight:700;letter-spacing:.08em">${esc(name.toUpperCase())} SAYS</div><div class="t">${esc(text)}</div></div>`, 'taunt-toast', 7000);
+  }
+  function showSqueaked() {
+    let el = $('#sqk'); if (el) el.remove();
+    el = document.createElement('div'); el.id = 'sqk'; el.className = 'squeaked'; el.setAttribute('role', 'alert');
+    el.innerHTML = `<div class="wob">${sid('shock', 220)}</div><h1>SQUEAK!</h1><b style="font-size:19px">${esc(nameOf(view.sqBy))} squeaked you.</b><p style="margin:0;max-width:320px">Your phone is shrieking and there’s no mute. Act natural. Blame the pigeons.</p><p class="small" style="margin:0">Tap to close</p>`;
+    el.addEventListener('click', () => el.remove());
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+
+  /* =====================================================================
+     ACTIONS
+     ===================================================================== */
+  function myName() { const i = $('#nm'); const v = (i ? i.value : store.name || '').trim().slice(0, 16); if (!v) { const e = $('#err'); if (e) e.textContent = 'Pop your name in first.'; if (i) i.focus(); return null; } store.name = v; save(); return v; }
+  function startRound(sardine) {
+    const n = curN() + 1, s = sets(); if (T.rounds && T.rounds[n]) return;
+    const cats = {}; plist().forEach((x) => { if (x.p !== sardine) cats[x.p] = 1; });
+    relay.set('rounds/' + n, { sardine, word: pick(WORDS), startAt: SV, pack: s.pack, limit: s.limit, cool: s.cool, sqr: s.sqr, lies: !!s.lies, zone: s.zone && s.zone.r ? s.zone : null, cats });
+    relay.patch('game', { round: n, over: false });
+    view.replay = false; view.packMsg = null;
+  }
+  const ACT = {
+    create() {
+      const nm = myName(); if (!nm) return;
+      const code = genCode(); store.tin = code; store.made = code; save();
+      connect(code);
+      relay.set('game', { v: 1, host: ME, created: SV, round: 0, over: false, set: Object.assign({}, DEF) });
+      relay.set('players/' + ME, { name: nm, at: SV });
+      try { history.replaceState(null, '', location.pathname + '?tin=' + code); } catch (e) {}
+      refresh();
+    },
+    join() {
+      const nm = myName(); if (!nm) return;
+      const code = normCode($('#cd').value);
+      if (!CODE_RE.test(code)) { $('#err').textContent = 'Tin numbers are 6 letters and numbers, like KQ7F2M.'; return; }
+      store.tin = code; save(); connect(code);
+      try { history.replaceState(null, '', location.pathname + '?tin=' + code); } catch (e) {}
+      refresh();
+    },
+    leave() {
+      if (relay && T && T.game && !curRound() && !G().over && hostId() !== ME) relay.del('players/' + ME);
+      closeSheet(); disconnect(); unwake(); store.tin = null; store.made = null; save(); curKey = '';
+      try { history.replaceState(null, '', location.pathname); } catch (e) {}
+      refresh();
+    },
+    share() {
+      const url = location.origin + location.pathname + '?tin=' + store.tin;
+      if (navigator.share) navigator.share({ title: 'Sardines', text: `Join my tin: ${store.tin}`, url }).catch(() => {});
+      else if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => toast('<b>Link copied.</b> Send it to the Cats.'), () => toast('Tin number: <b>' + store.tin + '</b>'));
+      else toast('Tin number: <b>' + store.tin + '</b>');
+    },
+    setting(el) {
+      if (hostId() !== ME) return;
+      const k = el.dataset.k, s = sets();
+      if (k === 'pick') return pickSheet();
+      if (k === 'zone') return zoneSheet();
+      if (k === 'lies') return relay.patch('game/set', { lies: !s.lies });
+      const o = OPTS[k], i = o.indexOf(s[k]);
+      relay.patch('game/set', { [k]: o[(i + 1) % o.length] });
+    },
+    pickset(el) { relay.patch('game/set', { pick: el.dataset.p }); closeSheet(); },
+    zpick(el) { if (sheetApi && sheetApi.setR) sheetApi.setR(+el.dataset.r); },
+    zsave() {
+      const r = sheetApi ? sheetApi.r : 0;
+      if (r && !geo.fix) { toast('Waiting for your location first.'); return; }
+      relay.patch('game/set', { zone: r ? { lat: geo.fix.lat, lng: geo.fix.lng, r } : null });
+      closeSheet();
+    },
+    start() {
+      if (hostId() !== ME || plist().length < 2) return;
+      const s = sets(), ps = plist();
+      startRound(s.pick !== 'random' && P()[s.pick] ? s.pick : pick(ps).p);
+    },
+    next() {
+      const r = curRound(); if (!r || hostId() !== ME) return;
+      if (plist().length < 2) { toast('Need at least 2 players.'); return; }
+      let nx = nextSardine(r, P()); if (!P()[nx]) nx = pick(plist()).p;
+      startRound(nx);
+    },
+    endgame() {
+      if (Date.now() - view.endArm < 4000) { view.endArm = 0; relay.patch('game', { over: true }); return; }
+      view.endArm = Date.now(); refresh(); setTimeout(refresh, 4100);
+    },
+    newgame() { if (hostId() !== ME) return; relay.del('rounds'); relay.patch('game', { round: 0, over: false }); view.replay = false; },
+    replay() { view.replay = true; refresh(); },
+    results() { view.replay = false; refresh(); },
+    async ask(el) {
+      const r = curRound(), k = el.dataset.k; if (!r) return;
+      const ts = turnState(r, ME, now()); if (!ts.ready || quiet(r.sardine)) return;
+      app.querySelectorAll('#qg .qbtn').forEach((b) => { b.disabled = true; });
+      const f = await freshFix(15000);
+      if (!f) { toast('No GPS fix yet. Try somewhere more open.'); refresh(); return; }
+      const r2 = curRound(); if (!r2 || r2.startAt !== r.startAt || !turnState(r2, ME, now()).ready) { refresh(); return; }
+      const id = rid();
+      view.msgs[id] = say('wait');
+      relay.set(rpath('q/' + id), { p: ME, k, lat: f.lat, lng: f.lng, acc: f.acc, at: SV });
+      if (k === 'sq') view.msgs[id] = say('sq');
+      refresh();
+    },
+    found() { foundSheet(); },
+    async squeeze() {
+      const r = curRound(), inp = $('#wd', layer); if (!r || !inp) return;
+      if (normCode(inp.value) !== normCode(r.word)) { txt('werr', 'Nope. That’s not the word. No word, no tin.'); buzz(200); inp.select(); return; }
+      const f = await freshFix(30000);
+      relay.set(rpath('tin/' + ME), f ? { at: SV, lat: f.lat, lng: f.lng } : { at: SV });
+      ding(); buzz([100, 60, 100]); closeSheet(); refresh();
+    },
+    fib() { fibSheet(); },
+    fibpick(el) { view.fibTo = el.dataset.p; if (sheetApi && sheetApi.update) sheetApi.update(); },
+    fibgo() {
+      const r = curRound(); if (!r || !view.fibTo || obj(obj(r.fib)[ME]).to) { closeSheet(); return; }
+      relay.set(rpath('fib/' + ME), { to: view.fibTo, at: SV });
+      closeSheet(); toast(`Fib loaded. ${esc(nameOf(view.fibTo))}’s next answer comes out backwards.`);
+    },
+    taunt() { tauntSheet(); },
+    tpick(el) { const o = sheetApi && sheetApi.opts; if (!o) return; view.tauntPick = o[+el.dataset.i]; const tw = $('#tw', layer); if (tw) tw.value = ''; txt('tlen', '0 / 80'); layer.querySelectorAll('#topts .opt').forEach((b) => b.setAttribute('aria-pressed', String(b === el))); },
+    tsend() {
+      const r = curRound(); if (!r) return;
+      const ts = tauntState(r, ME, now()); if (!ts.can) { closeSheet(); return; }
+      const own = ($('#tw', layer) || {}).value || '', text = (own.trim() || view.tauntPick || '').slice(0, 80);
+      if (!text) return;
+      relay.set(rpath('taunt/' + rid()), { text, at: SV, b: ts.regReady ? 0 : 1 });
+      closeSheet(); toast('Taunt sent. Shameless.');
+    },
+    sos() { const r = curRound(); if (!r || r.sos) return; sosSheet(); },
+    sosgo() {
+      const r = curRound(); closeSheet(); if (!r || r.sos) return;
+      const f = geo.fix;
+      relay.set(rpath('sos'), Object.assign({ p: ME, at: SV }, f ? { lat: f.lat, lng: f.lng } : {}));
+      buzz([300, 100, 300]);
+    },
+    sosok() { const r = curRound(); if (r && r.sos) relay.patch(rpath('sos'), { ok: 1 }); },
+    closesheet(el, e) { if (e && el.classList.contains('sheet-wrap') && e.target !== el) return; closeSheet(); },
+    sound() { audio(); setTimeout(refresh, 150); },
+    geo() { geoStart(true); refresh(); },
+  };
+  function onAct(e) {
+    const el = e.target.closest('[data-act]'); if (!el || !el.dataset.act) return;
+    const a = ACT[el.dataset.act]; if (!a) return;
+    if (el.disabled) return;
+    a(el, e);
+  }
+  app.addEventListener('click', onAct);
+  layer.addEventListener('click', onAct);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && view.sheet && view.sheet !== 'sos') closeSheet(); });
+  document.addEventListener('pointerdown', () => { audio(); }, { capture: true, passive: true });
+
+  /* =====================================================================
+     HEARTBEAT
+     ===================================================================== */
+  let lastPres = 0, lastGeo = '';
+  setInterval(() => {
+    if (relay) {
+      referee();
+      if (Date.now() - lastPres > 20000 || geo.st !== lastGeo) { lastPres = Date.now(); lastGeo = geo.st; presence(); }
+    }
+    refresh();
+  }, 1000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { lastPres = 0; if (relay) geoStart(); refresh(); } });
+
+  if (store.tin && CODE_RE.test(store.tin)) connect(store.tin);
+  else { store.tin = null; save(); }
+  refresh();
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+  window.__sardines = { engine: ENGINE, skew(ms) { skew = ms; refresh(); }, state: () => ({ T, key: curKey, me: ME, geo: geo.st, link, sheet: view.sheet }) };
+})();
+</script>
+</body>
+</html>
