@@ -9,5 +9,5 @@
    of the same browser, which is handy for trying it out but not for the park.
    --------------------------------------------------------------------------- */
 window.SYNC_CONFIG = {
-  databaseURL: ''
+  databaseURL: 'https://hide-seek-3313a-default-rtdb.europe-west1.firebasedatabase.app/'
 };
